@@ -18,16 +18,13 @@
 
 import SwiftUI
 import View
+import Controller
 
 @main
 struct App: SwiftUI.App {
   var body: some Scene {
-    DocumentGroup(newDocument: ChatDocsDocument()) { file in
-      ContentView(document: file.$document)
+    DocumentGroup(newDocument: Document()) { file in
+      DocumentView(document: file.$document)
     }
-  }
-  
-  func doSomething() {
-    let myView: MyView = MyView()
   }
 }
