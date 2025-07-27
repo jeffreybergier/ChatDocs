@@ -21,20 +21,32 @@ import Controller
 
 public struct DocumentView: View {
   
-  @Binding var document: Document
+  @Binding internal var document: Document
+  @SceneStorage("prompt") internal var prompt: String = ""
   
   public init(document: Binding<Document> = .constant(.init())) {
     _document = document
   }
   
   public var body: some View {
-    List(self.document.model.messages) { message in
-      HStack {
-        if (message.isUser) {
-          Spacer()
+    VStack(spacing: 0) {
+      List(self.document.model.messages) { message in
+        HStack {
+          if (message.isUser) {
+            Spacer()
+          }
+          Text(message.text)
         }
-        Text(message.text)
       }
+      HStack {
+        TextField("Enter Prompt", text: self.$prompt)
+        Button("Submit") {
+          // TODO: Hook this up to the LLM
+          self.document.model.messages.append(.init(text: .init(self.prompt)))
+          self.prompt = ""
+        }
+      }
+      .padding()
     }
   }
 }
