@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8C5F0DA92E35E1CC00E846E8 /* View in Frameworks */ = {isa = PBXBuildFile; productRef = 8C5F0DA82E35E1CC00E846E8 /* View */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		8C5F0D432E35D62600E846E8 /* ChatDocs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatDocs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C5F0DA42E35E10300E846E8 /* Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Model; sourceTree = "<group>"; };
+		8C5F0DA52E35E17500E846E8 /* Controller */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Controller; sourceTree = "<group>"; };
+		8C5F0DA62E35E1A600E846E8 /* View */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = View; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C5F0DA92E35E1CC00E846E8 /* View in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +54,10 @@
 			isa = PBXGroup;
 			children = (
 				8C5F0D452E35D62600E846E8 /* ChatDocs */,
+				8C5F0DA62E35E1A600E846E8 /* View */,
+				8C5F0DA52E35E17500E846E8 /* Controller */,
+				8C5F0DA42E35E10300E846E8 /* Model */,
+				8C5F0DA72E35E1CC00E846E8 /* Frameworks */,
 				8C5F0D442E35D62600E846E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +68,13 @@
 				8C5F0D432E35D62600E846E8 /* ChatDocs.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8C5F0DA72E35E1CC00E846E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +97,7 @@
 			);
 			name = ChatDocs;
 			packageProductDependencies = (
+				8C5F0DA82E35E1CC00E846E8 /* View */,
 			);
 			productName = ChatDocs;
 			productReference = 8C5F0D432E35D62600E846E8 /* ChatDocs.app */;
@@ -192,6 +212,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8C5F0DA82E35E1CC00E846E8 /* View */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = View;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8C5F0D3B2E35D62600E846E8 /* Project object */;
 }
