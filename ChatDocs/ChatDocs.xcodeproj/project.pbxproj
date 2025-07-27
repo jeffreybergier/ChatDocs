@@ -15,6 +15,8 @@
 		8C5F0DA42E35E10300E846E8 /* Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Model; sourceTree = "<group>"; };
 		8C5F0DA52E35E17500E846E8 /* Controller */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Controller; sourceTree = "<group>"; };
 		8C5F0DA62E35E1A600E846E8 /* View */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = View; sourceTree = "<group>"; };
+		8C5F0DAA2E35E58700E846E8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
+		8C5F0DAB2E35E59100E846E8 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -53,6 +55,8 @@
 		8C5F0D3A2E35D62600E846E8 = {
 			isa = PBXGroup;
 			children = (
+				8C5F0DAA2E35E58700E846E8 /* README.md */,
+				8C5F0DAB2E35E59100E846E8 /* LICENSE */,
 				8C5F0D452E35D62600E846E8 /* ChatDocs */,
 				8C5F0DA62E35E1A600E846E8 /* View */,
 				8C5F0DA52E35E17500E846E8 /* Controller */,
