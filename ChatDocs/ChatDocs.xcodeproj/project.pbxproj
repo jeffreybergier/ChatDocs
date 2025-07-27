@@ -6,76 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		8C682F402E352BB2008ECC81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C682F272E352BB0008ECC81 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8C682F2E2E352BB0008ECC81;
-			remoteInfo = ChatDocs;
-		};
-		8C682F4A2E352BB2008ECC81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C682F272E352BB0008ECC81 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8C682F2E2E352BB0008ECC81;
-			remoteInfo = ChatDocs;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		8C682F2F2E352BB0008ECC81 /* ChatDocs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatDocs.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C682F3F2E352BB2008ECC81 /* ChatDocsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatDocsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C682F492E352BB2008ECC81 /* ChatDocsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatDocsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C5F0D432E35D62600E846E8 /* ChatDocs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatDocs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8C682F512E352BB2008ECC81 /* Exceptions for "ChatDocs" folder in "ChatDocs" target */ = {
+		8C5F0D4F2E35D62700E846E8 /* Exceptions for "ChatDocs" folder in "ChatDocs" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 8C682F2E2E352BB0008ECC81 /* ChatDocs */;
+			target = 8C5F0D422E35D62600E846E8 /* ChatDocs */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		8C682F312E352BB0008ECC81 /* ChatDocs */ = {
+		8C5F0D452E35D62600E846E8 /* ChatDocs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8C682F512E352BB2008ECC81 /* Exceptions for "ChatDocs" folder in "ChatDocs" target */,
+				8C5F0D4F2E35D62700E846E8 /* Exceptions for "ChatDocs" folder in "ChatDocs" target */,
 			);
 			path = ChatDocs;
-			sourceTree = "<group>";
-		};
-		8C682F422E352BB2008ECC81 /* ChatDocsTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ChatDocsTests;
-			sourceTree = "<group>";
-		};
-		8C682F4C2E352BB2008ECC81 /* ChatDocsUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ChatDocsUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8C682F2C2E352BB0008ECC81 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F3C2E352BB2008ECC81 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F462E352BB2008ECC81 /* Frameworks */ = {
+		8C5F0D402E35D62600E846E8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -85,22 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8C682F262E352BB0008ECC81 = {
+		8C5F0D3A2E35D62600E846E8 = {
 			isa = PBXGroup;
 			children = (
-				8C682F312E352BB0008ECC81 /* ChatDocs */,
-				8C682F422E352BB2008ECC81 /* ChatDocsTests */,
-				8C682F4C2E352BB2008ECC81 /* ChatDocsUITests */,
-				8C682F302E352BB0008ECC81 /* Products */,
+				8C5F0D452E35D62600E846E8 /* ChatDocs */,
+				8C5F0D442E35D62600E846E8 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		8C682F302E352BB0008ECC81 /* Products */ = {
+		8C5F0D442E35D62600E846E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8C682F2F2E352BB0008ECC81 /* ChatDocs.app */,
-				8C682F3F2E352BB2008ECC81 /* ChatDocsTests.xctest */,
-				8C682F492E352BB2008ECC81 /* ChatDocsUITests.xctest */,
+				8C5F0D432E35D62600E846E8 /* ChatDocs.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,134 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8C682F2E2E352BB0008ECC81 /* ChatDocs */ = {
+		8C5F0D422E35D62600E846E8 /* ChatDocs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8C682F522E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocs" */;
+			buildConfigurationList = 8C5F0D502E35D62700E846E8 /* Build configuration list for PBXNativeTarget "ChatDocs" */;
 			buildPhases = (
-				8C682F2B2E352BB0008ECC81 /* Sources */,
-				8C682F2C2E352BB0008ECC81 /* Frameworks */,
-				8C682F2D2E352BB0008ECC81 /* Resources */,
+				8C5F0D3F2E35D62600E846E8 /* Sources */,
+				8C5F0D402E35D62600E846E8 /* Frameworks */,
+				8C5F0D412E35D62600E846E8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				8C682F312E352BB0008ECC81 /* ChatDocs */,
+				8C5F0D452E35D62600E846E8 /* ChatDocs */,
 			);
 			name = ChatDocs;
 			packageProductDependencies = (
 			);
 			productName = ChatDocs;
-			productReference = 8C682F2F2E352BB0008ECC81 /* ChatDocs.app */;
+			productReference = 8C5F0D432E35D62600E846E8 /* ChatDocs.app */;
 			productType = "com.apple.product-type.application";
-		};
-		8C682F3E2E352BB2008ECC81 /* ChatDocsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8C682F572E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocsTests" */;
-			buildPhases = (
-				8C682F3B2E352BB2008ECC81 /* Sources */,
-				8C682F3C2E352BB2008ECC81 /* Frameworks */,
-				8C682F3D2E352BB2008ECC81 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8C682F412E352BB2008ECC81 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				8C682F422E352BB2008ECC81 /* ChatDocsTests */,
-			);
-			name = ChatDocsTests;
-			packageProductDependencies = (
-			);
-			productName = ChatDocsTests;
-			productReference = 8C682F3F2E352BB2008ECC81 /* ChatDocsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		8C682F482E352BB2008ECC81 /* ChatDocsUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8C682F5A2E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocsUITests" */;
-			buildPhases = (
-				8C682F452E352BB2008ECC81 /* Sources */,
-				8C682F462E352BB2008ECC81 /* Frameworks */,
-				8C682F472E352BB2008ECC81 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8C682F4B2E352BB2008ECC81 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				8C682F4C2E352BB2008ECC81 /* ChatDocsUITests */,
-			);
-			name = ChatDocsUITests;
-			packageProductDependencies = (
-			);
-			productName = ChatDocsUITests;
-			productReference = 8C682F492E352BB2008ECC81 /* ChatDocsUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		8C682F272E352BB0008ECC81 /* Project object */ = {
+		8C5F0D3B2E35D62600E846E8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					8C682F2E2E352BB0008ECC81 = {
+					8C5F0D422E35D62600E846E8 = {
 						CreatedOnToolsVersion = 26.0;
-					};
-					8C682F3E2E352BB2008ECC81 = {
-						CreatedOnToolsVersion = 26.0;
-						TestTargetID = 8C682F2E2E352BB0008ECC81;
-					};
-					8C682F482E352BB2008ECC81 = {
-						CreatedOnToolsVersion = 26.0;
-						TestTargetID = 8C682F2E2E352BB0008ECC81;
 					};
 				};
 			};
-			buildConfigurationList = 8C682F2A2E352BB0008ECC81 /* Build configuration list for PBXProject "ChatDocs" */;
+			buildConfigurationList = 8C5F0D3E2E35D62600E846E8 /* Build configuration list for PBXProject "ChatDocs" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 8C682F262E352BB0008ECC81;
+			mainGroup = 8C5F0D3A2E35D62600E846E8;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 8C682F302E352BB0008ECC81 /* Products */;
+			productRefGroup = 8C5F0D442E35D62600E846E8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8C682F2E2E352BB0008ECC81 /* ChatDocs */,
-				8C682F3E2E352BB2008ECC81 /* ChatDocsTests */,
-				8C682F482E352BB2008ECC81 /* ChatDocsUITests */,
+				8C5F0D422E35D62600E846E8 /* ChatDocs */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8C682F2D2E352BB0008ECC81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F3D2E352BB2008ECC81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F472E352BB2008ECC81 /* Resources */ = {
+		8C5F0D412E35D62600E846E8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,21 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8C682F2B2E352BB0008ECC81 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F3B2E352BB2008ECC81 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8C682F452E352BB2008ECC81 /* Sources */ = {
+		8C5F0D3F2E35D62600E846E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -268,21 +137,8 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		8C682F412E352BB2008ECC81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8C682F2E2E352BB0008ECC81 /* ChatDocs */;
-			targetProxy = 8C682F402E352BB2008ECC81 /* PBXContainerItemProxy */;
-		};
-		8C682F4B2E352BB2008ECC81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8C682F2E2E352BB0008ECC81 /* ChatDocs */;
-			targetProxy = 8C682F4A2E352BB2008ECC81 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		8C682F532E352BB2008ECC81 /* Debug */ = {
+		8C5F0D512E35D62700E846E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -318,19 +174,18 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
-		8C682F542E352BB2008ECC81 /* Release */ = {
+		8C5F0D522E35D62700E846E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -366,19 +221,18 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
-		8C682F552E352BB2008ECC81 /* Debug */ = {
+		8C5F0D532E35D62700E846E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -440,7 +294,7 @@
 			};
 			name = Debug;
 		};
-		8C682F562E352BB2008ECC81 /* Release */ = {
+		8C5F0D542E35D62700E846E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -494,148 +348,28 @@
 			};
 			name = Release;
 		};
-		8C682F582E352BB2008ECC81 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.ChatDocsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatDocs.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ChatDocs";
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Debug;
-		};
-		8C682F592E352BB2008ECC81 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.ChatDocsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatDocs.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ChatDocs";
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Release;
-		};
-		8C682F5B2E352BB2008ECC81 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.ChatDocsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = ChatDocs;
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Debug;
-		};
-		8C682F5C2E352BB2008ECC81 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.ChatDocsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = ChatDocs;
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8C682F2A2E352BB0008ECC81 /* Build configuration list for PBXProject "ChatDocs" */ = {
+		8C5F0D3E2E35D62600E846E8 /* Build configuration list for PBXProject "ChatDocs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C682F552E352BB2008ECC81 /* Debug */,
-				8C682F562E352BB2008ECC81 /* Release */,
+				8C5F0D532E35D62700E846E8 /* Debug */,
+				8C5F0D542E35D62700E846E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C682F522E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocs" */ = {
+		8C5F0D502E35D62700E846E8 /* Build configuration list for PBXNativeTarget "ChatDocs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C682F532E352BB2008ECC81 /* Debug */,
-				8C682F542E352BB2008ECC81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8C682F572E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8C682F582E352BB2008ECC81 /* Debug */,
-				8C682F592E352BB2008ECC81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8C682F5A2E352BB2008ECC81 /* Build configuration list for PBXNativeTarget "ChatDocsUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8C682F5B2E352BB2008ECC81 /* Debug */,
-				8C682F5C2E352BB2008ECC81 /* Release */,
+				8C5F0D512E35D62700E846E8 /* Debug */,
+				8C5F0D522E35D62700E846E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 8C682F272E352BB0008ECC81 /* Project object */;
+	rootObject = 8C5F0D3B2E35D62600E846E8 /* Project object */;
 }
