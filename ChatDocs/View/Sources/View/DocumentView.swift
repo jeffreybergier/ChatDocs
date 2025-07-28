@@ -18,9 +18,12 @@
 
 import SwiftUI
 import Controller
+import FoundationModels
 
 public struct DocumentView: View {
   
+  private static let model = SystemLanguageModel.default
+  @Bindable var session = LanguageModelSession(model: DocumentView.model, instructions: "You are a chatbot. Please have fun when chatting with the user.")
   @Binding internal var document: Document
   @SceneStorage("prompt") internal var prompt: String = ""
   
@@ -38,15 +41,29 @@ public struct DocumentView: View {
           Text(message.text)
         }
       }
+      self.chatBox
+    }
+  }
+  
+  @ViewBuilder private var chatBox: some View {
+    switch DocumentView.model.availability {
+    case .available:
       HStack {
         TextField("Enter Prompt", text: self.$prompt)
         Button("Submit") {
           // TODO: Hook this up to the LLM
+          Task {
+            let response = try! await self.session.respond(to: self.prompt)
+            self.document.model.messages.append(.init(text: .init(response.content), isUser: false))
+            self.prompt = ""
+          }
           self.document.model.messages.append(.init(text: .init(self.prompt)))
-          self.prompt = ""
         }
       }
       .padding()
+    case .unavailable(let unavailableReason):
+      Text(String(describing: unavailableReason))
+        .padding()
     }
   }
 }
