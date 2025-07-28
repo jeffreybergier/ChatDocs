@@ -23,8 +23,8 @@ import PackageDescription
 let package = Package(
   name: "View",
   platforms: [
-    .macOS(.v12),
-    .iOS(.v15),
+    .macOS(.v26),
+    .iOS(.v26),
   ],
   products: [
     .library(

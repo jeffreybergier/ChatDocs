@@ -23,7 +23,7 @@ import Model
 public struct Document: FileDocument {
   
   public static let readableContentTypes = [
-    UTType(importedAs: "com.saturdayapps.ChatDocs.document")
+    UTType(exportedAs: "com.saturdayapps.ChatDocs.document")
   ]
   
   public var model: DocumentModel
