@@ -18,7 +18,6 @@
 
 import SwiftUI
 import Controller
-import FoundationModels
 
 public struct ChatDocView: View {
   
@@ -30,10 +29,10 @@ public struct ChatDocView: View {
   
   public var body: some View {
     VStack(spacing: 0) {
-      List(self.document.model.entries) { message in
-        // TODO: Create EntryListView
+      List(self.document.model.entries) { entry in
+        EntryListView(entry)
       }
-      // TODO: Create EntryInputView
+      EntryInputView()
     }
   }
 }
