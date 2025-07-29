@@ -20,15 +20,15 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Model
 
-public struct Document: FileDocument {
+public struct ChatDoc: FileDocument {
   
   public static let readableContentTypes = [
     UTType(exportedAs: "com.saturdayapps.ChatDocs.document")
   ]
   
-  public var model: DocumentModel
+  public var model: ChatDocModel
   
-  public init(model: DocumentModel = .init()) {
+  public init(_ model: ChatDocModel = .init()) {
     self.model = model
   }
   
@@ -37,7 +37,7 @@ public struct Document: FileDocument {
     guard let data = configuration.file.regularFileContents else {
       throw CocoaError(.fileReadCorruptFile)
     }
-    let model = try plistDecoder.decode(DocumentModel.self, from: data)
+    let model = try plistDecoder.decode(ChatDocModel.self, from: data)
     self.model = model
   }
   

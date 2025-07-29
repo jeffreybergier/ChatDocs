@@ -23,8 +23,8 @@ import Controller
 @main
 struct App: SwiftUI.App {
   var body: some Scene {
-    DocumentGroup(newDocument: Document()) { file in
-      DocumentView(document: file.$document)
+    DocumentGroup(newDocument: ChatDoc()) { file in
+      ChatDocView(document: file.$document)
     }
   }
 }
