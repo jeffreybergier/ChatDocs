@@ -20,10 +20,12 @@ import SwiftUI
 import Model
 
 internal struct EntryInputView: View {
+  
+  @SceneStorage("Prompt") private var prompt: String = ""
     
   internal init() { }
   
   internal var body: some View {
-    TextField("Prommpt")
+    TextField("What do you want to ask?", text: self.$prompt)
   }
 }

@@ -29,25 +29,8 @@ public struct ChatDocView: View {
   
   public var body: some View {
     VStack(spacing: 0) {
-      List(self.document.model.entries) { entry in
-        EntryListView(entry)
-      }
+      EntryListView(self.document.model.entries)
       EntryInputView()
     }
   }
-}
-
-import Model
-
-#Preview {
-  let messages: [Message] = [
-    .init(text: "Can you tell me about the great wall?"),
-    .init(text: "Sure, the great wall is a blah blah blah blah.", isUser: false),
-    .init(text: "Oh, thats so cool! I didn't know that. But what is a blah?"),
-    .init(text: "A blah is a small mouse that lives in the wall. Its really cute! Do you want to know more?", isUser: false),
-    .init(text: "Yes"),
-    .init(text: "Great, let me tell you more...", isUser: false),
-  ]
-  let model = ChatDocModel(messages.map { Entry(kind: .message($0)) })
-  ChatDocView(document: .constant(ChatDoc(model)))
 }

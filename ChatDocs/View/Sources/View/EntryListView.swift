@@ -20,6 +20,19 @@ import SwiftUI
 import Model
 
 internal struct EntryListView: View {
+  private let entries: [Entry]
+  
+  internal init(_ entries: [Entry]) {
+    self.entries = entries
+  }
+  internal var body: some View {
+    List(self.entries) { entry in
+      EntryListRowView(entry)
+    }
+  }
+}
+
+internal struct EntryListRowView: View {
   
   private let entry: Entry
   
@@ -35,4 +48,17 @@ internal struct EntryListView: View {
       Text(message.text)
     }
   }
+}
+
+#Preview {
+  let messages: [Message] = [
+    .init(text: "Can you tell me about the great wall?"),
+    .init(text: "Sure, the great wall is a blah blah blah blah.", isUser: false),
+    .init(text: "Oh, thats so cool! I didn't know that. But what is a blah?"),
+    .init(text: "A blah is a small mouse that lives in the wall. Its really cute! Do you want to know more?", isUser: false),
+    .init(text: "Yes"),
+    .init(text: "Great,222 let me tell you more...", isUser: false),
+  ]
+  let entries: [Entry] = messages.map { Entry(kind: .message($0)) }
+  EntryListView(entries)
 }
