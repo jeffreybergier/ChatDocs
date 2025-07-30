@@ -28,6 +28,8 @@ internal struct EntryListView: View {
   internal var body: some View {
     List(self.entries) { entry in
       EntryListRowView(entry)
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
     }
   }
 }
@@ -43,9 +45,21 @@ internal struct EntryListRowView: View {
   internal var body: some View {
     switch self.entry.kind {
     case .none:
+      Spacer()
       Text("None")
+      Spacer()
     case .message(let message):
-      Text(message.text)
+      HStack(spacing: 0) {
+        if (message.isUser) {
+          Spacer()
+        }
+        Text(message.text)
+          .padding()
+          .glassEffect(
+            .regular.tint(message.isUser ? .green : .blue), in: .rect(cornerRadius: 16)
+          )
+          .animation(.bouncy, value: message.text)
+      }
     }
   }
 }
