@@ -29,7 +29,6 @@ internal struct EntryListView: View {
     List(self.entries) { entry in
       EntryListRowView(entry)
         .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
     }
   }
 }
@@ -54,6 +53,8 @@ internal struct EntryListRowView: View {
           Spacer()
         }
         Text(message.text)
+          .font(.body)
+          .foregroundStyle(Color.white)
           .padding()
           .glassEffect(
             .regular.tint(message.isUser ? .green : .blue), in: .rect(cornerRadius: 16)
