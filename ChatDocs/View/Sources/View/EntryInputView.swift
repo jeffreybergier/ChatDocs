@@ -18,14 +18,51 @@
 
 import SwiftUI
 import Model
+import FoundationModels
 
 internal struct EntryInputView: View {
   
+  internal enum Mode: String, RawRepresentable {
+    case reset, prompt
+  }
+  
+  @State private var noAIError: SystemLanguageModel.Availability.UnavailableReason?
   @SceneStorage("Prompt") private var prompt: String = ""
+  @SceneStorage("Mode") private var mode: Mode = .reset
     
   internal init() { }
   
   internal var body: some View {
-    TextField("What do you want to ask?", text: self.$prompt)
+    Group {
+      if let noAIError {
+        // TODO: Localize Error Reasons
+        Text(String(describing: noAIError))
+      } else {
+        switch self.mode {
+        case .reset:
+          // TODO: Add instructions entering
+          // TODO: Add use cases?
+          // TODO: Add button to create session
+          Text("Reset")
+        case .prompt:
+          TextField("What do you want to ask?", text: self.$prompt)
+        }
+      }
+    }
+    .onAppear {
+      #if !DEBUG
+      let availability = SystemLanguageModel.default.availability
+      switch availability {
+      case .available:
+        self.noAIError = nil
+      case .unavailable(let reason):
+        self.noAIError = reason
+      }
+      #endif
+    }
   }
+}
+
+#Preview {
+  EntryInputView()
 }
