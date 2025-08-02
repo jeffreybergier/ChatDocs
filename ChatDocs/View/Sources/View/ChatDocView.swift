@@ -28,15 +28,14 @@ public struct ChatDocView: View {
   }
   
   public var body: some View {
-    VStack(spacing: 0) {
-      EntryListView(self.document.model.records)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-          EntryEmitterView() { newRecord in
-            self.document.model.process(record: newRecord)
-          }
-          .padding([.leading, .trailing, .bottom], 8)
+    EntryListView(self.document.model.records)
+      .safeAreaInset(edge: .bottom, spacing: 0) {
+        EntryEmitterView() { newRecord in
+          self.document.model.process(record: newRecord)
         }
-    }
+        .padding([.leading, .trailing, .bottom], 8)
+      }
+      .frame(idealWidth: 400, minHeight: 200, idealHeight: 700)
   }
 }
 
