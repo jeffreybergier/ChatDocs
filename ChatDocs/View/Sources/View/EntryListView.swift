@@ -63,7 +63,7 @@ internal struct EntryListRowView: View {
   internal var body: some View {
     switch self.record.entry {
     case .message(let message):
-      HStack(spacing: 0) {
+      HStack(spacing:0) {
         if (message.isUser) {
           Spacer()
         }
@@ -73,11 +73,23 @@ internal struct EntryListRowView: View {
         }
       }
     case .reset:
-      self.chatBubble("Chat Session Reset")
+      HStack(spacing:0) {
+        Spacer()
+        self.chatBubble("Chat Session Reset")
+        Spacer()
+      }
     case .started(let instructions):
-      self.chatBubble(instructions, explanation: "Chat Session Started")
+      HStack(spacing:0) {
+        Spacer()
+        self.chatBubble(instructions, explanation: "Chat Session Started")
+        Spacer()
+      }
     case .error(let error):
-      self.chatBubble(error, explanation: "Chat Session Error")
+      HStack(spacing:0) {
+        Spacer()
+        self.chatBubble(error, explanation: "Chat Session Error")
+        Spacer()
+      }
     }
   }
   

@@ -23,6 +23,13 @@ public struct ChatDocModel: Codable, Sendable {
   public init(_ records: [EntryRecord] = []) {
     self.records = records
   }
+  public mutating func process(record: EntryRecord) {
+    if let lastRecord = self.records.last, lastRecord.id == record.id {
+      self.records[self.records.count-1] = record
+    } else {
+      self.records.append(record)
+    }
+  }
 }
 
 public enum Entry: Codable, Sendable {
@@ -32,6 +39,32 @@ public enum Entry: Codable, Sendable {
   case error(String)
   public func toRecord() -> EntryRecord {
     return .init(entry: self)
+  }
+  
+  public var stringValue: String {
+    get {
+      switch self {
+      case .message(let message):
+        return message.content
+      case .started(let content), .error(let content):
+        return content
+      default:
+        return ""
+      }
+    }
+    set {
+      switch self {
+      case .message(var message):
+        message.content = newValue
+        self = .message(message)
+      case .started:
+        self = .started(newValue)
+      case .error:
+        self = .error(newValue)
+      default:
+        break
+      }
+    }
   }
 }
 

@@ -31,13 +31,8 @@ public struct ChatDocView: View {
     VStack(spacing: 0) {
       EntryListView(self.document.model.records)
         .safeAreaInset(edge: .bottom, spacing: 0) {
-          GlassEffectContainer {
-            EntryEmitterView() {
-              self.document.model.records.append($0)
-            }
-            .padding()
-            .frame(minWidth: 320, maxWidth: 640)
-            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16))
+          EntryEmitterView() { newRecord in
+            self.document.model.process(record: newRecord)
           }
           .padding([.leading, .trailing, .bottom], 8)
         }

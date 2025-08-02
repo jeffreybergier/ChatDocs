@@ -71,16 +71,23 @@ internal struct EntryEmitterView: View {
   }
   
   internal var body: some View {
-    if let session {
-      EntryEmitterPromptView(session: session, onEntry: self.emitter)
-    } else {
-      switch SystemLanguageModel.default.availability {
-      case .available:
-        EntryEmitterSessionView(session: $session, onEntry: self.emitter)
-      case .unavailable(let reason):
-        Label(String(describing: reason), systemImage: "triangle.exclamationmark")
-          .font(.title)
+    GlassEffectContainer {
+      Group {
+        if let session {
+          EntryEmitterPromptView(session: session, onEntry: self.emitter)
+        } else {
+          switch SystemLanguageModel.default.availability {
+          case .available:
+            EntryEmitterSessionView(session: $session, onEntry: self.emitter)
+          case .unavailable(let reason):
+            Label(String(describing: reason), systemImage: "triangle.exclamationmark")
+              .font(.title)
+          }
+        }
       }
+      .padding()
+      .frame(minWidth: 320, maxWidth: 640)
+      .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16))
     }
   }
 }
@@ -117,6 +124,7 @@ internal struct EntryEmitterSessionView: View {
 internal struct EntryEmitterPromptView: View {
   
   @SceneStorage("Prompt") private var prompt = ""
+  @State private var response = Entry.message(.init("", isUser: false)).toRecord()
   
   private let session: LanguageModelSession
   private let emitter: RecordEmitter
@@ -126,24 +134,31 @@ internal struct EntryEmitterPromptView: View {
   }
   
   internal var body: some View {
-    HStack(alignment:.top) {
-      CD_TextEditor("Ask the model anything you like",
-                    disabled:self.session.isResponding,
-                    text:$prompt)
-      CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
-        let prompt = self.prompt
-        self.emitter(Entry.message(.init(prompt, isUser: true)).toRecord())
-        Task {
-          do {
-            let response = try await self.session.respond(to: prompt)
-            self.emitter(Entry.message(.init(response.content, isUser: false)).toRecord())
-            self.prompt = ""
-          } catch let error {
-            self.emitter(Entry.error(String(describing: error)).toRecord())
+    VStack {
+      HStack(alignment:.top) {
+        CD_TextEditor("Ask the model anything you like",
+                      disabled:self.session.isResponding,
+                      text:$prompt)
+        CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
+          Task {
+            do {
+              let prompt = self.prompt
+              self.response = Entry.message(.init("", isUser: false)).toRecord()
+              self.prompt = ""
+              self.emitter(Entry.message(.init(prompt, isUser: true)).toRecord())
+              for try await token in self.session.streamResponse(to: prompt) {
+                self.response.entry.stringValue += token
+                self.emitter(self.response)
+              }
+              self.response = Entry.message(.init("", isUser: false)).toRecord()
+            } catch let error {
+              self.emitter(Entry.error(String(describing: error)).toRecord())
+            }
           }
         }
       }
     }
+    .animation(.default, value:self.response.entry.stringValue)
   }
 }
 
