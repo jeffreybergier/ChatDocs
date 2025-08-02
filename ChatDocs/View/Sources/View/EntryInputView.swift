@@ -20,132 +20,132 @@ import SwiftUI
 import Model
 import FoundationModels
 
-internal struct EntryInputView: View {
-  
-  @State private var session: LanguageModelSession? = nil
-  @State private var noAIError: SystemLanguageModel.Availability.UnavailableReason?
-  @SceneStorage("Prompt") private var prompt: String = ""
-  @SceneStorage("Instructions") private var instructions: String = "You are a friendly chatbot. Please have an engaging and insightful discussion with the user"
-  @SceneStorage private var mode: Mode
-  private let entryEmitter: (Entry) -> Void
-  
-  private var canPrompt: Bool {
-    if let session {
-      return session.isResponding == false
-    } else {
-      return false
-    }
+typealias EntryEmitter = (Entry) -> Void
+
+@MainActor
+func CD_PrimaryButton(_ title: LocalizedStringKey,
+                      disabled: Bool = false,
+                      action: @escaping ()->Void)
+                      -> some View
+{
+  return Button(action: action) {
+    Label(title, systemImage: "checkmark")
+      .font(.title)
+      .padding(4)
   }
+  .tint(.green)
+  .buttonStyle(.glassProminent)
+  .buttonBorderShape(.circle)
+  .disabled(disabled)
+}
+
+func CD_TextEditor(_ titleKey: LocalizedStringKey,
+                   disabled: Bool,
+                   text: Binding<String>)
+                   -> some View
+{
+  return VStack(alignment:.leading) {
+    TextEditor(text: text)
+      .font(.body)
+      .clipShape(RoundedRectangle(cornerRadius: 8))
+      .overlay {
+        RoundedRectangle(cornerRadius: 8)
+          .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+      }
+    Text(titleKey)
+      .font(.caption)
+      .foregroundStyle(Color.gray)
+  }
+  .frame(maxHeight: 64)
+}
+
+internal struct EntryEmitterView: View {
     
-  internal init(__PREVIEWS: Mode = .reset, _ onEntry: @escaping (Entry) -> Void) {
-    _mode = .init(wrappedValue: __PREVIEWS, "Prompt")
-    self.entryEmitter = onEntry
+  @State private var session: LanguageModelSession?
+  
+  private let emitter: EntryEmitter
+  internal init(_ onEntry: @escaping EntryEmitter) {
+    self.emitter = onEntry
   }
   
   internal var body: some View {
-    VStack {
-      if let noAIError {
-        // TODO: Localize Error Reasons
-        Text(String(describing: noAIError))
-      } else {
-        switch self.mode {
-        case .reset:
-          HStack {
-            TextEditor(text: self.instructionBinding)
-              .frame(maxHeight: 64)
-              .disabled(self.session != nil)
-            VStack {
-              Button("Clear Session") {
-                self.session = nil
-                self.entryEmitter(.init(kind: .reset))
-              }
-              .disabled(self.session == nil)
-              Button("Start Session") {
-                let instructions = self.instructions
-                self.session = LanguageModelSession(instructions: instructions)
-                self.entryEmitter(.init(kind: .started(instructions)))
-              }
-              .disabled(self.session != nil)
-            }
-          }
-        case .prompt:
-          HStack {
-            TextEditor(text: self.$prompt)
-              .frame(maxHeight: 64)
-            Button {
-              let prompt = self.prompt
-              self.entryEmitter(.init(kind: .message(.init(text: prompt, isUser: true))))
-              Task {
-                do {
-                  let response = try await self.session!.respond(to: prompt)
-                  self.entryEmitter(.init(kind: .message(.init(text: response.content, isUser: false))))
-                  self.prompt = ""
-                } catch let error {
-                  self.entryEmitter(.init(kind: .error(String(describing:error))))
-                }
-              }
-            } label: {
-              Label("Ask", systemImage: "checkmark")
-                .font(.title)
-                .padding(4)
-            }
-            .tint(.green)
-            .buttonStyle(.glassProminent)
-            .buttonBorderShape(.circle)
-          }
-          .disabled(!self.canPrompt)
-        }
-      }
-      Picker("", selection: $mode) {
-        ForEach(Mode.allCases) { mode in
-          Text(mode.label)
-            .tag(mode)
-        }
-      }
-      .pickerStyle(.palette)
-    }
-    .font(.body)
-    .animation(.default, value: self.mode)
-    .onAppear {
-      #if !DEBUG
-      let availability = SystemLanguageModel.default.availability
-      switch availability {
+    if let session {
+      EntryEmitterPromptView(session: session, onEntry: self.emitter)
+    } else {
+      switch SystemLanguageModel.default.availability {
       case .available:
-        self.noAIError = nil
+        EntryEmitterSessionView(session: $session, onEntry: self.emitter)
       case .unavailable(let reason):
-        self.noAIError = reason
+        Label(String(describing: reason), systemImage: "triangle.exclamationmark")
+          .font(.title)
       }
-      #endif
     }
   }
+}
+
+internal struct EntryEmitterSessionView: View {
   
-  private var instructionBinding: Binding<String> {
-    return .init {
-      if let _ = self.session {
-        return "Clear Session to Set New Instructions"
-      } else {
-        return self.instructions
-      }
-    } set: {
-      self.instructions = $0
-    }
+  @Binding private var session: LanguageModelSession?
+  @SceneStorage("Instructions") private var instructions: String = "You are a friendly chatbot. Please have an engaging and insightful discussion with the user"
+
+  private let emitter: EntryEmitter
+  internal init(session: Binding<LanguageModelSession?>,
+                onEntry: @escaping EntryEmitter)
+  {
+    _session = session
+    self.emitter = onEntry
   }
   
-  internal enum Mode: String, RawRepresentable, CaseIterable, Identifiable {
-    case reset, prompt
-    internal var id: String { self.rawValue }
-    internal var label: LocalizedStringKey {
-      switch self {
-      case .prompt:
-        return "Session"
-      case .reset:
-        return "Prompt"
+  internal var body: some View {
+    HStack(alignment: .top) {
+      CD_TextEditor("Start your chat session with some instructions",
+                    disabled:self.session != nil,
+                    text:$instructions)
+        .frame(maxHeight: 64)
+        .font(.body)
+      CD_PrimaryButton("Start", disabled:self.session != nil) {
+        let instructions = self.instructions
+        self.session = LanguageModelSession(instructions: instructions)
+        self.emitter(.init(kind: .started(instructions)))
+      }
+    }
+  }
+}
+
+internal struct EntryEmitterPromptView: View {
+  
+  @SceneStorage("Prompt") private var prompt = ""
+  
+  private let session: LanguageModelSession
+  private let emitter: EntryEmitter
+  internal init(session: LanguageModelSession, onEntry: @escaping EntryEmitter) {
+    self.session = session
+    self.emitter = onEntry
+  }
+  
+  internal var body: some View {
+    HStack(alignment:.top) {
+      CD_TextEditor("Ask the model anything you like",
+                    disabled:self.session.isResponding,
+                    text:$prompt)
+      CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
+        let prompt = self.prompt
+        self.emitter(.init(kind: .message(.init(text: prompt, isUser: true))))
+        Task {
+          do {
+            let response = try await self.session.respond(to: prompt)
+            self.emitter(.init(kind: .message(.init(text: response.content, isUser: false))))
+            self.prompt = ""
+          } catch let error {
+            self.emitter(.init(kind: .error(String(describing:error))))
+          }
+        }
       }
     }
   }
 }
 
 #Preview {
-  EntryInputView(__PREVIEWS: .reset) { _ in }
-  EntryInputView(__PREVIEWS: .prompt) { _ in }
+  EntryEmitterSessionView(session: .constant(nil), onEntry: { _ in })
+  EntryEmitterPromptView(session: .init(model:.default), onEntry: { _ in })
 }

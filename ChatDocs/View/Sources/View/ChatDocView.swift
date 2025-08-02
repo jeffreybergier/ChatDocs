@@ -31,7 +31,7 @@ public struct ChatDocView: View {
     VStack(spacing: 0) {
       EntryListView(self.document.model.entries)
         .safeAreaInset(edge: .bottom) {
-          EntryInputView() {
+          EntryEmitterView() {
             self.document.model.entries.append($0)
           }
           .padding()
