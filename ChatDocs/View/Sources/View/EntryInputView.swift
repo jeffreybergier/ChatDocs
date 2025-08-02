@@ -45,17 +45,18 @@ func CD_TextEditor(_ titleKey: LocalizedStringKey,
                    -> some View
 {
   return VStack(alignment:.leading) {
-    TextEditor(text: text)
-      .font(.body)
-      .disabled(disabled)
-      .clipShape(RoundedRectangle(cornerRadius: 8))
-      .overlay {
-        RoundedRectangle(cornerRadius: 8)
-          .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-      }
-    Text(titleKey)
-      .font(.caption)
-      .foregroundStyle(Color.gray)
+    // TODO: Figure out how to disable the text editor
+    VStack(alignment:.leading) {
+      TextEditor(text: text)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .overlay {
+          RoundedRectangle(cornerRadius: 8)
+            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+        }
+      Text(titleKey)
+        .font(.caption)
+        .foregroundStyle(Color.gray)
+    }
   }
   .frame(maxHeight: 64)
 }
@@ -131,11 +132,11 @@ internal struct EntryEmitterPromptView: View {
                     text:$prompt)
       CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
         let prompt = self.prompt
-        self.emitter(Entry.message(.init(text: prompt, isUser: true)).toRecord())
+        self.emitter(Entry.message(.init(prompt, isUser: true)).toRecord())
         Task {
           do {
             let response = try await self.session.respond(to: prompt)
-            self.emitter(Entry.message(.init(text: response.content, isUser: false)).toRecord())
+            self.emitter(Entry.message(.init(response.content, isUser: false)).toRecord())
             self.prompt = ""
           } catch let error {
             self.emitter(Entry.error(String(describing: error)).toRecord())

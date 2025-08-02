@@ -71,14 +71,14 @@ public struct Message: Codable, Sendable {
     }
   }
   
-  public var text: String = ""
+  public var content: String = ""
   public var options: Options = .init()
   public var isUser: Bool = true
-  public init(text: String = "",
+  public init(_ content: String = "",
               options: Options = .init(),
               isUser: Bool = true)
   {
-    self.text = text
+    self.content = content
     self.options = options
     self.isUser = isUser
   }

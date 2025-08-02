@@ -19,6 +19,24 @@
 import SwiftUI
 import Model
 
+#if os(macOS)
+import AppKit
+extension Color {
+  internal static var controlTextColor: Color { Color(nsColor: .textBackgroundColor) }
+  internal static var systemGreen: Color { Color(nsColor: .systemGreen) }
+  internal static var systemBlue: Color { Color(nsColor: .systemBlue) }
+  internal static var systemGray: Color { Color(nsColor: .systemGray) }
+}
+#else
+import UIKit
+extension Color {
+  internal static var controlTextColor: Color { Color(uiColor: .label) }
+  internal static var systemGreen: Color { Color(uiColor: .systemGreen) }
+  internal static var systemBlue: Color { Color(uiColor: .systemBlue) }
+  internal static var systemGray: Color { Color(uiColor: .systemGray) }
+}
+#endif
+
 internal struct EntryListView: View {
   
   private let records: [EntryRecord]
@@ -27,8 +45,8 @@ internal struct EntryListView: View {
     self.records = records
   }
   internal var body: some View {
-    List(self.records) { entry in
-      EntryListRowView(entry)
+    List(self.records) { record in
+      EntryListRowView(record)
         .listRowSeparator(.hidden)
     }
   }
@@ -49,24 +67,43 @@ internal struct EntryListRowView: View {
         if (message.isUser) {
           Spacer()
         }
-        Text(message.text)
-          .font(.body)
-          .foregroundStyle(Color.white)
-          .padding()
-          .glassEffect(
-            .regular.tint(message.isUser ? .green : .blue), in: .rect(cornerRadius: 16)
-          )
-          .animation(.bouncy, value: message.text)
+        self.chatBubble(message.content)
+        if (!message.isUser) {
+          Spacer()
+        }
       }
     case .reset:
-      Text("Session Cleared")
+      self.chatBubble("Chat Session Reset")
     case .started(let instructions):
-      Text("Sesssion Started")
-      Text(instructions)
+      self.chatBubble(instructions, explanation: "Chat Session Started")
     case .error(let error):
-      Text("Sesssion Started")
-      Text(error)
+      self.chatBubble(error, explanation: "Chat Session Error")
     }
+  }
+  
+  private func chatBubble(_ text: String,
+                          explanation: String? = nil)
+                          -> some View
+  {
+    return VStack(alignment:.leading) {
+      if let explanation {
+        Text(explanation)
+          .font(.callout)
+        Divider().frame(maxWidth: 300)
+      }
+      if let markdown = self.renderMarkdown(text) {
+        Text(markdown)
+          .font(.body)
+      } else {
+        Text(text)
+          .font(.body)
+      }
+    }
+    .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+    .foregroundStyle(Color.controlTextColor)
+    .background(self.backgroundColor)
+    .clipShape(RoundedRectangle(cornerRadius: 16))
+    .shadow(radius: 2)
   }
   
   private var backgroundColor: AnyGradient {
@@ -79,17 +116,35 @@ internal struct EntryListRowView: View {
       return Color.gray.gradient
     }
   }
+  
+  private func renderMarkdown(_ text: String) -> AttributedString? {
+    let options = AttributedString.MarkdownParsingOptions(interpretedSyntax:.inlineOnly)
+    let output = try? AttributedString(markdown:text, options: options)
+    return output
+  }
+  
+  // TODO: Figure out why I cannot use full
 }
 
 #Preview {
-  let messages: [Message] = [
-    Message(text: "Can you tell me about the great wall?"),
-//    Message(text: "Sure, the great wall is a blah blah blah blah.", isUser: false),
-//    .init(text: "Oh, thats so cool! I didn't know that. But what is a blah?"),
-//    .init(text: "A blah is a small mouse that lives in the wall. Its really cute! Do you want to know more?", isUser: false),
-//    .init(text: "Yes"),
-//    .init(text: "Great,222 let me tell you more...", isUser: false),
-  ]
-  let records: [EntryRecord] = messages.map { Entry.message($0).toRecord() }
-  EntryListView(records)
+  List {
+    EntryListRowView(Entry.started("You are a friendly chatbot").toRecord())
+    EntryListRowView(Entry.reset.toRecord())
+    EntryListRowView(Entry.error("Out of Tokens").toRecord())
+    EntryListRowView(Entry.message(.init("This is **cool** don't you think?")).toRecord())
+    EntryListRowView(Entry.message(.init("This is **cool** don't you think?", isUser: false)).toRecord())
+    EntryListRowView(Entry.message(.init("""
+                                       # Title One
+                                       
+                                       This is **cool** don't you think?
+                                       
+                                       - List Item 1
+                                       - List Item 2
+                                       - List Item 3
+                                       
+                                       ## Subsection One
+                                       
+                                       This is cool
+                                       """, isUser: false)).toRecord())
+  }
 }
