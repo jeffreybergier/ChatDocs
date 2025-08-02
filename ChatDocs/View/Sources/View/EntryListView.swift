@@ -43,10 +43,6 @@ internal struct EntryListRowView: View {
   
   internal var body: some View {
     switch self.entry.kind {
-    case .none:
-      Spacer()
-      Text("None")
-      Spacer()
     case .message(let message):
       HStack(spacing: 0) {
         if (message.isUser) {
@@ -61,6 +57,14 @@ internal struct EntryListRowView: View {
           )
           .animation(.bouncy, value: message.text)
       }
+    case .reset:
+      Text("Session Cleared")
+    case .started(let instructions):
+      Text("Sesssion Started")
+      Text(instructions)
+    case .error(let error):
+      Text("Sesssion Started")
+      Text(error)
     }
   }
 }

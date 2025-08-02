@@ -26,18 +26,21 @@ public struct ChatDocModel: Codable, Sendable {
 }
 
 public struct Entry: Codable, Sendable, Identifiable {
+  
   public enum Kind: Codable, Sendable {
-    case none
     case message(Message)
+    case reset
+    case started(String)
+    case error(String)
   }
   
   public var id: String = UUID().uuidString
   public var date: Date = .now
-  public var kind: Kind = .none
+  public var kind: Kind
   
   public init(id: String = UUID().uuidString,
               date: Date = .now,
-              kind: Kind = .none)
+              kind: Kind)
   {
     self.id = id
     self.date = date
