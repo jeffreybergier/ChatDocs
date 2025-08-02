@@ -20,7 +20,7 @@ import SwiftUI
 import Model
 import FoundationModels
 
-typealias EntryEmitter = (Entry) -> Void
+typealias RecordEmitter = (EntryRecord) -> Void
 
 @MainActor
 func CD_PrimaryButton(_ title: LocalizedStringKey,
@@ -47,6 +47,7 @@ func CD_TextEditor(_ titleKey: LocalizedStringKey,
   return VStack(alignment:.leading) {
     TextEditor(text: text)
       .font(.body)
+      .disabled(disabled)
       .clipShape(RoundedRectangle(cornerRadius: 8))
       .overlay {
         RoundedRectangle(cornerRadius: 8)
@@ -63,8 +64,8 @@ internal struct EntryEmitterView: View {
     
   @State private var session: LanguageModelSession?
   
-  private let emitter: EntryEmitter
-  internal init(_ onEntry: @escaping EntryEmitter) {
+  private let emitter: RecordEmitter
+  internal init(_ onEntry: @escaping RecordEmitter) {
     self.emitter = onEntry
   }
   
@@ -88,9 +89,9 @@ internal struct EntryEmitterSessionView: View {
   @Binding private var session: LanguageModelSession?
   @SceneStorage("Instructions") private var instructions: String = "You are a friendly chatbot. Please have an engaging and insightful discussion with the user"
 
-  private let emitter: EntryEmitter
+  private let emitter: RecordEmitter
   internal init(session: Binding<LanguageModelSession?>,
-                onEntry: @escaping EntryEmitter)
+                onEntry: @escaping RecordEmitter)
   {
     _session = session
     self.emitter = onEntry
@@ -106,7 +107,7 @@ internal struct EntryEmitterSessionView: View {
       CD_PrimaryButton("Start", disabled:self.session != nil) {
         let instructions = self.instructions
         self.session = LanguageModelSession(instructions: instructions)
-        self.emitter(.init(kind: .started(instructions)))
+        self.emitter(Entry.started(instructions).toRecord())
       }
     }
   }
@@ -117,8 +118,8 @@ internal struct EntryEmitterPromptView: View {
   @SceneStorage("Prompt") private var prompt = ""
   
   private let session: LanguageModelSession
-  private let emitter: EntryEmitter
-  internal init(session: LanguageModelSession, onEntry: @escaping EntryEmitter) {
+  private let emitter: RecordEmitter
+  internal init(session: LanguageModelSession, onEntry: @escaping RecordEmitter) {
     self.session = session
     self.emitter = onEntry
   }
@@ -130,14 +131,14 @@ internal struct EntryEmitterPromptView: View {
                     text:$prompt)
       CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
         let prompt = self.prompt
-        self.emitter(.init(kind: .message(.init(text: prompt, isUser: true))))
+        self.emitter(Entry.message(.init(text: prompt, isUser: true)).toRecord())
         Task {
           do {
             let response = try await self.session.respond(to: prompt)
-            self.emitter(.init(kind: .message(.init(text: response.content, isUser: false))))
+            self.emitter(Entry.message(.init(text: response.content, isUser: false)).toRecord())
             self.prompt = ""
           } catch let error {
-            self.emitter(.init(kind: .error(String(describing:error))))
+            self.emitter(Entry.error(String(describing: error)).toRecord())
           }
         }
       }

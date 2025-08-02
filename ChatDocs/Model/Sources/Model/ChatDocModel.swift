@@ -19,32 +19,35 @@
 import Foundation
 
 public struct ChatDocModel: Codable, Sendable {
-  public var entries: [Entry] = []
-  public init(_ entries: [Entry] = []) {
-    self.entries = entries
+  public var records: [EntryRecord] = []
+  public init(_ records: [EntryRecord] = []) {
+    self.records = records
   }
 }
 
-public struct Entry: Codable, Sendable, Identifiable {
-  
-  public enum Kind: Codable, Sendable {
-    case message(Message)
-    case reset
-    case started(String)
-    case error(String)
+public enum Entry: Codable, Sendable {
+  case message(Message)
+  case reset
+  case started(String)
+  case error(String)
+  public func toRecord() -> EntryRecord {
+    return .init(entry: self)
   }
+}
+
+public struct EntryRecord: Codable, Sendable, Identifiable {
   
   public var id: String = UUID().uuidString
   public var date: Date = .now
-  public var kind: Kind
+  public var entry: Entry
   
   public init(id: String = UUID().uuidString,
               date: Date = .now,
-              kind: Kind)
+              entry: Entry)
   {
     self.id = id
     self.date = date
-    self.kind = kind
+    self.entry = entry
   }
 }
 

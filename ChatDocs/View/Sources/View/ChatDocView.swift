@@ -29,13 +29,19 @@ public struct ChatDocView: View {
   
   public var body: some View {
     VStack(spacing: 0) {
-      EntryListView(self.document.model.entries)
+      EntryListView(self.document.model.records)
         .safeAreaInset(edge: .bottom) {
           EntryEmitterView() {
-            self.document.model.entries.append($0)
+            self.document.model.records.append($0)
           }
+          .padding()
+          .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16))
           .padding()
         }
     }
   }
+}
+
+#Preview {
+  ChatDocView()
 }

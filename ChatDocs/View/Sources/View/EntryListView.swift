@@ -20,13 +20,14 @@ import SwiftUI
 import Model
 
 internal struct EntryListView: View {
-  private let entries: [Entry]
   
-  internal init(_ entries: [Entry]) {
-    self.entries = entries
+  private let records: [EntryRecord]
+  
+  internal init(_ records: [EntryRecord]) {
+    self.records = records
   }
   internal var body: some View {
-    List(self.entries) { entry in
+    List(self.records) { entry in
       EntryListRowView(entry)
         .listRowSeparator(.hidden)
     }
@@ -35,14 +36,14 @@ internal struct EntryListView: View {
 
 internal struct EntryListRowView: View {
   
-  private let entry: Entry
+  private let record: EntryRecord
   
-  internal init(_ entry: Entry) {
-    self.entry = entry
+  internal init(_ record: EntryRecord) {
+    self.record = record
   }
   
   internal var body: some View {
-    switch self.entry.kind {
+    switch self.record.entry {
     case .message(let message):
       HStack(spacing: 0) {
         if (message.isUser) {
@@ -67,17 +68,28 @@ internal struct EntryListRowView: View {
       Text(error)
     }
   }
+  
+  private var backgroundColor: AnyGradient {
+    switch self.record.entry {
+    case .message(let message) where message.isUser:
+      return Color.green.gradient
+    case .message:
+      return Color.blue.gradient
+    default:
+      return Color.gray.gradient
+    }
+  }
 }
 
 #Preview {
   let messages: [Message] = [
-    .init(text: "Can you tell me about the great wall?"),
-    .init(text: "Sure, the great wall is a blah blah blah blah.", isUser: false),
-    .init(text: "Oh, thats so cool! I didn't know that. But what is a blah?"),
-    .init(text: "A blah is a small mouse that lives in the wall. Its really cute! Do you want to know more?", isUser: false),
-    .init(text: "Yes"),
-    .init(text: "Great,222 let me tell you more...", isUser: false),
+    Message(text: "Can you tell me about the great wall?"),
+//    Message(text: "Sure, the great wall is a blah blah blah blah.", isUser: false),
+//    .init(text: "Oh, thats so cool! I didn't know that. But what is a blah?"),
+//    .init(text: "A blah is a small mouse that lives in the wall. Its really cute! Do you want to know more?", isUser: false),
+//    .init(text: "Yes"),
+//    .init(text: "Great,222 let me tell you more...", isUser: false),
   ]
-  let entries: [Entry] = messages.map { Entry(kind: .message($0)) }
-  EntryListView(entries)
+  let records: [EntryRecord] = messages.map { Entry.message($0).toRecord() }
+  EntryListView(records)
 }
