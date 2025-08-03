@@ -12,8 +12,16 @@
     VERSION_INFO_STRING = "@(#)PROGRAM:ChatDocs  PROJECT:ChatDocs-1"
     TARGETED_DEVICE_FAMILY = 1,2
     SUPPORTED_PLATFORMS = iphoneos iphonesimulator macosx
-    IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-    MACOSX_DEPLOYMENT_TARGET = 26.0;
+    IPHONEOS_DEPLOYMENT_TARGET = 26.0
+    MACOSX_DEPLOYMENT_TARGET = 26.0
+
+    GENERATE_INFOPLIST_FILE = YES
+    INFOPLIST_KEY_CFBundleDisplayName = Chat Docs
+    INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.productivity
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES
+    INFOPLIST_KEY_UILaunchScreen_Generation = YES
+    INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+    INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
 
     ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES
     ALWAYS_SEARCH_USER_PATHS = NO
