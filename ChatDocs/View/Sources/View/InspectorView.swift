@@ -26,8 +26,8 @@ internal struct InspectorView: View {
   @Binding private var controller: SessionController
   @Binding private var config: DocConfig
   
-  internal init(_ config: Binding<DocConfig>,
-                _ controller: Binding<SessionController>)
+  internal init(config: Binding<DocConfig>,
+                session controller: Binding<SessionController>)
   {
     _config = config
     _controller = controller
@@ -44,11 +44,13 @@ internal struct InspectorView: View {
           self.controller.startSession()
         }
       }
+      .disabled(self.controller.status != .isReset)
       Section("Reset Session") {
         Button("Reset Session") {
           self.controller.resetSession()
         }
       }
+      .disabled(self.controller.status != .isStarted)
     }
   }
 }

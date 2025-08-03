@@ -20,11 +20,12 @@ import Foundation
 
 public struct ChatDocModel: Equatable, Codable, Sendable {
   
-  public var records: [EntryRecord] = []
-  public var config: DocConfig = .init()
+  public var records: [EntryRecord]
+  public var config: DocConfig
   
-  public init(_ records: [EntryRecord] = []) {
+  public init(records: [EntryRecord] = [], config: DocConfig = .init()) {
     self.records = records
+    self.config = config
   }
   public mutating func process(record: EntryRecord) {
     if let lastRecord = self.records.last, lastRecord.id == record.id {
@@ -75,8 +76,8 @@ public enum Entry: Equatable, Codable, Sendable {
 
 public struct EntryRecord: Equatable, Codable, Sendable, Identifiable {
   
-  public var id: String = UUID().uuidString
-  public var date: Date = .now
+  public var id: String
+  public var date: Date
   public var entry: Entry
   
   public init(id: String = UUID().uuidString,
@@ -109,9 +110,9 @@ public struct Message: Equatable, Codable, Sendable {
     }
   }
   
-  public var content: String = ""
-  public var options: Options = .init()
-  public var isUser: Bool = true
+  public var content: String
+  public var options: Options
+  public var isUser: Bool
   public init(_ content: String = "",
               options: Options = .init(),
               isUser: Bool = true)

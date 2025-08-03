@@ -37,22 +37,23 @@ extension Color {
 }
 #endif
 
-internal struct RecordListView: View {
+internal struct RecordView: View {
   
   private let records: [EntryRecord]
   
-  internal init(_ records: [EntryRecord]) {
+  internal init(records: [EntryRecord]) {
     self.records = records
   }
   internal var body: some View {
     List(self.records) { record in
-      RecordListRowView(record)
+      RecordCellView(record)
         .listRowSeparator(.hidden)
     }
+    .listStyle(.plain)
   }
 }
 
-internal struct RecordListRowView: View {
+internal struct RecordCellView: View {
   
   private let record: EntryRecord
   
@@ -68,6 +69,7 @@ internal struct RecordListRowView: View {
           Spacer()
         }
         self.chatBubble(message.content)
+          .animation(.default, value: message.content)
         if (!message.isUser) {
           Spacer()
         }
@@ -140,12 +142,12 @@ internal struct RecordListRowView: View {
 
 #Preview {
   List {
-    RecordListRowView(Entry.started("You are a friendly chatbot").toRecord())
-    RecordListRowView(Entry.reset.toRecord())
-    RecordListRowView(Entry.error("Out of Tokens").toRecord())
-    RecordListRowView(Entry.message(.init("This is **cool** don't you think?")).toRecord())
-    RecordListRowView(Entry.message(.init("This is **cool** don't you think?", isUser: false)).toRecord())
-    RecordListRowView(Entry.message(.init("""
+    RecordCellView(Entry.started("You are a friendly chatbot").toRecord())
+    RecordCellView(Entry.reset.toRecord())
+    RecordCellView(Entry.error("Out of Tokens").toRecord())
+    RecordCellView(Entry.message(.init("This is **cool** don't you think?")).toRecord())
+    RecordCellView(Entry.message(.init("This is **cool** don't you think?", isUser: false)).toRecord())
+    RecordCellView(Entry.message(.init("""
                                        # Title One
                                        
                                        This is **cool** don't you think?

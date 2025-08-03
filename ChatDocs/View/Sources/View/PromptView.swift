@@ -40,33 +40,23 @@ func CD_PrimaryButton(_ title: LocalizedStringKey,
   .disabled(disabled)
 }
 
-func CD_TextEditor(_ titleKey: LocalizedStringKey,
-                   disabled: Bool,
-                   text: Binding<String>)
-                   -> some View
-{
+func CD_TextEditor(_ text: Binding<String>) -> some View {
   return VStack(alignment:.leading) {
-    // TODO: Figure out how to disable the text editor
-    VStack(alignment:.leading) {
-      TextEditor(text: text)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay {
-          RoundedRectangle(cornerRadius: 8)
-            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-        }
-      Text(titleKey)
-        .font(.caption)
-        .foregroundStyle(Color.gray)
-    }
+    TextEditor(text: text)
+      .clipShape(RoundedRectangle(cornerRadius: 8))
+      .overlay {
+        RoundedRectangle(cornerRadius: 8)
+          .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+      }
   }
   .frame(maxHeight: 64)
 }
 
-internal struct ChatView: View {
+internal struct PromptView: View {
     
   @Binding private var controller: SessionController
   
-  internal init(_ controller: Binding<SessionController>) {
+  internal init(session controller: Binding<SessionController>) {
     _controller = controller
   }
   
@@ -100,11 +90,13 @@ internal struct ChatPromptView: View {
   internal var body: some View {
     VStack {
       HStack(alignment:.top) {
-        CD_TextEditor("Ask the model anything you like",
-                      disabled:self.controller.isResponding,
-                      text:$prompt)
-        CD_PrimaryButton("Ask", disabled:self.controller.isResponding) {
+        CD_TextEditor(self.$prompt)
+        CD_PrimaryButton("Ask",
+                         disabled:self.controller.status == .isResponding
+                               || self.prompt == "")
+        {
           self.controller.prompt(self.prompt)
+          self.prompt = ""
         }
       }
     }

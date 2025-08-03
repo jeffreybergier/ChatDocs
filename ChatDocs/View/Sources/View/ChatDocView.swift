@@ -33,13 +33,14 @@ public struct ChatDocView: View {
   }
   
   public var body: some View {
-    RecordListView(self.document.model.records)
+    RecordView(records: self.document.model.records)
       .safeAreaInset(edge: .bottom, spacing: 0) {
-        ChatView($controller)
+        PromptView(session:$controller)
           .padding([.leading, .trailing, .bottom], 8)
       }
       .inspector(isPresented:$showsInspector) {
-        InspectorView($document.model.config, $controller)
+        InspectorView(config:$document.model.config,
+                      session:$controller)
       }
       .toolbar(id: "Toolbar") {
         ToolbarItem(id: "Chat", placement: .automatic) {

@@ -23,10 +23,20 @@ import Model
 @MainActor
 public struct SessionController {
   
+  public enum Status: Equatable {
+    case isReset, isStarted, isResponding
+  }
+  
   @Binding private var model: ChatDocModel
   private var session: LanguageModelSession?
   
-  public var isResponding: Bool { self.session?.isResponding == true }
+  public var status: Status {
+    if let session {
+      return session.isResponding ? .isResponding : .isStarted
+    } else {
+      return .isReset
+    }
+  }
   
   public init(_ model: Binding<ChatDocModel>) {
     _model = model
