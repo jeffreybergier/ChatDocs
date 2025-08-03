@@ -45,11 +45,19 @@ internal struct RecordView: View {
     self.records = records
   }
   internal var body: some View {
-    List(self.records) { record in
-      RecordCellView(record)
-        .listRowSeparator(.hidden)
+    ScrollViewReader { proxy in
+      List(self.records) { record in
+        RecordCellView(record)
+          .listRowSeparator(.hidden)
+      }
+      .listStyle(.plain)
+      .onChange(of: self.records.last) { _, last in
+        guard let last else { return }
+        withAnimation {
+          proxy.scrollTo(last.id, anchor: .bottom)
+        }
+      }
     }
-    .listStyle(.plain)
   }
 }
 
