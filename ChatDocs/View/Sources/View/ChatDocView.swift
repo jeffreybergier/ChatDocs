@@ -22,24 +22,24 @@ import Controller
 
 public struct ChatDocView: View {
   
+  @State private var controller: SessionController
   @State private var session: LanguageModelSession?
   @Binding internal var document: ChatDoc
   @SceneStorage("Inspector") private var showsInspector = false
   
   public init(document: Binding<ChatDoc> = .constant(.init())) {
     _document = document
+    _controller = .init(initialValue: .init(document.model))
   }
   
   public var body: some View {
     RecordListView(self.document.model.records)
       .safeAreaInset(edge: .bottom, spacing: 0) {
-        ChatView($session) { newRecord in
-          self.document.model.process(record: newRecord)
-        }
-        .padding([.leading, .trailing, .bottom], 8)
+        ChatView($controller)
+          .padding([.leading, .trailing, .bottom], 8)
       }
       .inspector(isPresented:$showsInspector) {
-        InspectorView(config:$document.model.config, session:$session)
+        InspectorView($document.model.config, $controller)
       }
       .toolbar(id: "Toolbar") {
         ToolbarItem(id: "Chat", placement: .automatic) {

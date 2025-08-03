@@ -17,8 +17,9 @@
 //
 
 import SwiftUI
-import Model
 import FoundationModels
+import Controller
+import Model
 
 typealias RecordEmitter = (EntryRecord) -> Void
 
@@ -63,29 +64,21 @@ func CD_TextEditor(_ titleKey: LocalizedStringKey,
 
 internal struct ChatView: View {
     
-  @Binding private var session: LanguageModelSession?
+  @Binding private var controller: SessionController
   
-  private let emitter: RecordEmitter
-  internal init(_ session: Binding<LanguageModelSession?>,
-                _ onEntry: @escaping RecordEmitter)
-  {
-    _session = session
-    self.emitter = onEntry
+  internal init(_ controller: Binding<SessionController>) {
+    _controller = controller
   }
   
   internal var body: some View {
     GlassEffectContainer {
       Group {
-        if let session {
-          ChatPromptView(session: session, onEntry: self.emitter)
-        } else {
-          switch SystemLanguageModel.default.availability {
-          case .available:
-            ChatSessionView(session: $session, onEntry: self.emitter)
-          case .unavailable(let reason):
-            Label(String(describing: reason), systemImage: "triangle.exclamationmark")
-              .font(.title)
-          }
+        switch SystemLanguageModel.default.availability {
+        case .available:
+          ChatPromptView($controller)
+        case .unavailable(let reason):
+          Label(String(describing: reason), systemImage: "triangle.exclamationmark")
+            .font(.title)
         }
       }
       .padding()
@@ -95,77 +88,29 @@ internal struct ChatView: View {
   }
 }
 
-internal struct ChatSessionView: View {
-  
-  @Binding private var session: LanguageModelSession?
-  @SceneStorage("Instructions") private var instructions: String = "You are a friendly chatbot. Please have an engaging and insightful discussion with the user"
-
-  private let emitter: RecordEmitter
-  internal init(session: Binding<LanguageModelSession?>,
-                onEntry: @escaping RecordEmitter)
-  {
-    _session = session
-    self.emitter = onEntry
-  }
-  
-  internal var body: some View {
-    HStack(alignment: .top) {
-      CD_TextEditor("Start your chat session with some instructions",
-                    disabled:self.session != nil,
-                    text:$instructions)
-        .frame(maxHeight: 64)
-        .font(.body)
-      CD_PrimaryButton("Start", disabled:self.session != nil) {
-        let instructions = self.instructions
-        self.session = LanguageModelSession(instructions: instructions)
-        self.emitter(Entry.started(instructions).toRecord())
-      }
-    }
-  }
-}
-
 internal struct ChatPromptView: View {
   
   @SceneStorage("Prompt") private var prompt = ""
-  @State private var response = Entry.message(.init("", isUser: false)).toRecord()
+  @Binding private var controller: SessionController
   
-  private let session: LanguageModelSession
-  private let emitter: RecordEmitter
-  internal init(session: LanguageModelSession, onEntry: @escaping RecordEmitter) {
-    self.session = session
-    self.emitter = onEntry
+  internal init(_ controller: Binding<SessionController>) {
+    _controller = controller
   }
   
   internal var body: some View {
     VStack {
       HStack(alignment:.top) {
         CD_TextEditor("Ask the model anything you like",
-                      disabled:self.session.isResponding,
+                      disabled:self.controller.isResponding,
                       text:$prompt)
-        CD_PrimaryButton("Ask", disabled:self.session.isResponding) {
-          Task {
-            do {
-              let prompt = self.prompt
-              self.response = Entry.message(.init("", isUser: false)).toRecord()
-              self.prompt = ""
-              self.emitter(Entry.message(.init(prompt, isUser: true)).toRecord())
-              for try await token in self.session.streamResponse(to: prompt) {
-                self.response.entry.stringValue += token
-                self.emitter(self.response)
-              }
-              self.response = Entry.message(.init("", isUser: false)).toRecord()
-            } catch let error {
-              self.emitter(Entry.error(String(describing: error)).toRecord())
-            }
-          }
+        CD_PrimaryButton("Ask", disabled:self.controller.isResponding) {
+          self.controller.prompt(self.prompt)
         }
       }
     }
-    .animation(.default, value:self.response.entry.stringValue)
   }
 }
 
 #Preview {
-  ChatSessionView(session: .constant(nil), onEntry: { _ in })
-  ChatPromptView(session: .init(model:.default), onEntry: { _ in })
+  ChatPromptView(.constant(SessionController(.constant(.init()))))
 }

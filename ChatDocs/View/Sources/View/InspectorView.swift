@@ -18,18 +18,19 @@
 
 import SwiftUI
 import FoundationModels
+import Controller
 import Model
 
 internal struct InspectorView: View {
   
-  @Binding private var session: LanguageModelSession?
+  @Binding private var controller: SessionController
   @Binding private var config: DocConfig
   
-  internal init(config: Binding<DocConfig>,
-                session: Binding<LanguageModelSession?>)
+  internal init(_ config: Binding<DocConfig>,
+                _ controller: Binding<SessionController>)
   {
-    _session = session
     _config = config
+    _controller = controller
   }
   
   internal var body: some View {
@@ -40,16 +41,14 @@ internal struct InspectorView: View {
         }
         Toggle("Include Transcripts", isOn: $config.sessionOptions.usesTranscripts)
         Button("Start Session") {
-          self.session = LanguageModelSession(model: .default, instructions: self.config.sessionOptions.instructions)
+          self.controller.startSession()
         }
       }
-      .disabled(self.session != nil)
       Section("Reset Session") {
         Button("Reset Session") {
-          self.session = nil
+          self.controller.resetSession()
         }
       }
-      .disabled(self.session == nil)
     }
   }
 }

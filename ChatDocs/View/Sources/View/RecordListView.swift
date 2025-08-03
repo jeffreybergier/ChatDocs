@@ -130,7 +130,7 @@ internal struct RecordListRowView: View {
   }
   
   private func renderMarkdown(_ text: String) -> AttributedString? {
-    let options = AttributedString.MarkdownParsingOptions(interpretedSyntax:.inlineOnly)
+    let options = AttributedString.MarkdownParsingOptions(interpretedSyntax:.inlineOnlyPreservingWhitespace)
     let output = try? AttributedString(markdown:text, options: options)
     return output
   }
