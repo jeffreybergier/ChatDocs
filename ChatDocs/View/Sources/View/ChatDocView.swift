@@ -17,10 +17,12 @@
 //
 
 import SwiftUI
+import FoundationModels
 import Controller
 
 public struct ChatDocView: View {
   
+  @State private var session: LanguageModelSession?
   @Binding internal var document: ChatDoc
   @SceneStorage("Inspector") private var showsInspector = false
   
@@ -31,13 +33,13 @@ public struct ChatDocView: View {
   public var body: some View {
     RecordListView(self.document.model.records)
       .safeAreaInset(edge: .bottom, spacing: 0) {
-        ChatView() { newRecord in
+        ChatView($session) { newRecord in
           self.document.model.process(record: newRecord)
         }
         .padding([.leading, .trailing, .bottom], 8)
       }
       .inspector(isPresented:$showsInspector) {
-        Color.red
+        InspectorView(config:$document.model.config, session:$session)
       }
       .toolbar(id: "Toolbar") {
         ToolbarItem(id: "Chat", placement: .automatic) {

@@ -30,7 +30,7 @@ extension Color {
 #else
 import UIKit
 extension Color {
-  internal static var controlTextColor: Color { Color(uiColor: .label) }
+  internal static var controlTextColor: Color { Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? .black : .white })}
   internal static var systemGreen: Color { Color(uiColor: .systemGreen) }
   internal static var systemBlue: Color { Color(uiColor: .systemBlue) }
   internal static var systemGray: Color { Color(uiColor: .systemGray) }

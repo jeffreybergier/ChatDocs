@@ -15,3 +15,41 @@
 // You should have received a copy of the GNU General Public License
 // along with ChatDocs. If not, see <https://www.gnu.org/licenses/>.
 //
+
+import SwiftUI
+import FoundationModels
+import Model
+
+internal struct InspectorView: View {
+  
+  @Binding private var session: LanguageModelSession?
+  @Binding private var config: DocConfig
+  
+  internal init(config: Binding<DocConfig>,
+                session: Binding<LanguageModelSession?>)
+  {
+    _session = session
+    _config = config
+  }
+  
+  internal var body: some View {
+    Form {
+      Section("Current Session") {
+        LabeledContent("Instructions") {
+          TextEditor(text: $config.sessionOptions.instructions)
+        }
+        Toggle("Include Transcripts", isOn: $config.sessionOptions.usesTranscripts)
+        Button("Start Session") {
+          self.session = LanguageModelSession(model: .default, instructions: self.config.sessionOptions.instructions)
+        }
+      }
+      .disabled(self.session != nil)
+      Section("Reset Session") {
+        Button("Reset Session") {
+          self.session = nil
+        }
+      }
+      .disabled(self.session == nil)
+    }
+  }
+}

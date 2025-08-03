@@ -19,7 +19,10 @@
 import Foundation
 
 public struct ChatDocModel: Equatable, Codable, Sendable {
+  
   public var records: [EntryRecord] = []
+  public var config: DocConfig = .init()
+  
   public init(_ records: [EntryRecord] = []) {
     self.records = records
   }
@@ -117,4 +120,46 @@ public struct Message: Equatable, Codable, Sendable {
     self.options = options
     self.isUser = isUser
   }
+}
+
+public struct DocConfig: Equatable, Codable, Sendable {
+  public var promptOptions: PromptOptions?
+  public var sessionOptions: SessionOptions
+  public init(promptOptions: PromptOptions? = nil,
+              sessionOptions: SessionOptions = .init())
+  {
+    self.promptOptions = promptOptions
+    self.sessionOptions = sessionOptions
+  }
+}
+
+public struct SessionOptions: Equatable, Codable, Sendable {
+  public var instructions: String
+  public var usesTranscripts: Bool
+  public init(instructions: String = "",
+              usesTranscripts: Bool = true)
+  {
+    self.instructions = instructions
+    self.usesTranscripts = usesTranscripts
+  }
+}
+
+public struct PromptOptions: Equatable, Codable, Sendable {
+  public var sampling: PromptMode
+  public var temperature: Double
+  public var minimumResponseTokens: Int
+  public init(sampling: PromptMode,
+              temperature: Double,
+              minimumResponseTokens: Int)
+  {
+    self.sampling = sampling
+    self.temperature = temperature
+    self.minimumResponseTokens = minimumResponseTokens
+  }
+}
+
+public enum PromptMode: Equatable, Codable, Sendable {
+  case greedy
+  case randomP(probabilityThreshold: Double, seed: UInt64?)
+  case randomT(top: Int, seed: UInt64?)
 }

@@ -63,10 +63,13 @@ func CD_TextEditor(_ titleKey: LocalizedStringKey,
 
 internal struct ChatView: View {
     
-  @State private var session: LanguageModelSession?
+  @Binding private var session: LanguageModelSession?
   
   private let emitter: RecordEmitter
-  internal init(_ onEntry: @escaping RecordEmitter) {
+  internal init(_ session: Binding<LanguageModelSession?>,
+                _ onEntry: @escaping RecordEmitter)
+  {
+    _session = session
     self.emitter = onEntry
   }
   
