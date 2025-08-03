@@ -61,7 +61,7 @@ func CD_TextEditor(_ titleKey: LocalizedStringKey,
   .frame(maxHeight: 64)
 }
 
-internal struct EntryEmitterView: View {
+internal struct ChatView: View {
     
   @State private var session: LanguageModelSession?
   
@@ -74,11 +74,11 @@ internal struct EntryEmitterView: View {
     GlassEffectContainer {
       Group {
         if let session {
-          EntryEmitterPromptView(session: session, onEntry: self.emitter)
+          ChatPromptView(session: session, onEntry: self.emitter)
         } else {
           switch SystemLanguageModel.default.availability {
           case .available:
-            EntryEmitterSessionView(session: $session, onEntry: self.emitter)
+            ChatSessionView(session: $session, onEntry: self.emitter)
           case .unavailable(let reason):
             Label(String(describing: reason), systemImage: "triangle.exclamationmark")
               .font(.title)
@@ -92,7 +92,7 @@ internal struct EntryEmitterView: View {
   }
 }
 
-internal struct EntryEmitterSessionView: View {
+internal struct ChatSessionView: View {
   
   @Binding private var session: LanguageModelSession?
   @SceneStorage("Instructions") private var instructions: String = "You are a friendly chatbot. Please have an engaging and insightful discussion with the user"
@@ -121,7 +121,7 @@ internal struct EntryEmitterSessionView: View {
   }
 }
 
-internal struct EntryEmitterPromptView: View {
+internal struct ChatPromptView: View {
   
   @SceneStorage("Prompt") private var prompt = ""
   @State private var response = Entry.message(.init("", isUser: false)).toRecord()
@@ -163,6 +163,6 @@ internal struct EntryEmitterPromptView: View {
 }
 
 #Preview {
-  EntryEmitterSessionView(session: .constant(nil), onEntry: { _ in })
-  EntryEmitterPromptView(session: .init(model:.default), onEntry: { _ in })
+  ChatSessionView(session: .constant(nil), onEntry: { _ in })
+  ChatPromptView(session: .init(model:.default), onEntry: { _ in })
 }

@@ -15,29 +15,3 @@
 // You should have received a copy of the GNU General Public License
 // along with ChatDocs. If not, see <https://www.gnu.org/licenses/>.
 //
-
-import SwiftUI
-import Controller
-
-public struct ChatDocView: View {
-  
-  @Binding internal var document: ChatDoc
-  
-  public init(document: Binding<ChatDoc> = .constant(.init())) {
-    _document = document
-  }
-  
-  public var body: some View {
-    RecordListView(self.document.model.records)
-      .safeAreaInset(edge: .bottom, spacing: 0) {
-        ChatView() { newRecord in
-          self.document.model.process(record: newRecord)
-        }
-        .padding([.leading, .trailing, .bottom], 8)
-      }
-  }
-}
-
-#Preview {
-  ChatDocView()
-}

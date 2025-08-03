@@ -37,7 +37,7 @@ extension Color {
 }
 #endif
 
-internal struct EntryListView: View {
+internal struct RecordListView: View {
   
   private let records: [EntryRecord]
   
@@ -46,13 +46,13 @@ internal struct EntryListView: View {
   }
   internal var body: some View {
     List(self.records) { record in
-      EntryListRowView(record)
+      RecordListRowView(record)
         .listRowSeparator(.hidden)
     }
   }
 }
 
-internal struct EntryListRowView: View {
+internal struct RecordListRowView: View {
   
   private let record: EntryRecord
   
@@ -140,12 +140,12 @@ internal struct EntryListRowView: View {
 
 #Preview {
   List {
-    EntryListRowView(Entry.started("You are a friendly chatbot").toRecord())
-    EntryListRowView(Entry.reset.toRecord())
-    EntryListRowView(Entry.error("Out of Tokens").toRecord())
-    EntryListRowView(Entry.message(.init("This is **cool** don't you think?")).toRecord())
-    EntryListRowView(Entry.message(.init("This is **cool** don't you think?", isUser: false)).toRecord())
-    EntryListRowView(Entry.message(.init("""
+    RecordListRowView(Entry.started("You are a friendly chatbot").toRecord())
+    RecordListRowView(Entry.reset.toRecord())
+    RecordListRowView(Entry.error("Out of Tokens").toRecord())
+    RecordListRowView(Entry.message(.init("This is **cool** don't you think?")).toRecord())
+    RecordListRowView(Entry.message(.init("This is **cool** don't you think?", isUser: false)).toRecord())
+    RecordListRowView(Entry.message(.init("""
                                        # Title One
                                        
                                        This is **cool** don't you think?

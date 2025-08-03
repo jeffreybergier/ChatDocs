@@ -18,7 +18,7 @@
 
 import Foundation
 
-public struct ChatDocModel: Codable, Sendable {
+public struct ChatDocModel: Equatable, Codable, Sendable {
   public var records: [EntryRecord] = []
   public init(_ records: [EntryRecord] = []) {
     self.records = records
@@ -32,11 +32,13 @@ public struct ChatDocModel: Codable, Sendable {
   }
 }
 
-public enum Entry: Codable, Sendable {
+public enum Entry: Equatable, Codable, Sendable {
+  
   case message(Message)
   case reset
   case started(String)
   case error(String)
+  
   public func toRecord() -> EntryRecord {
     return .init(entry: self)
   }
@@ -68,7 +70,7 @@ public enum Entry: Codable, Sendable {
   }
 }
 
-public struct EntryRecord: Codable, Sendable, Identifiable {
+public struct EntryRecord: Equatable, Codable, Sendable, Identifiable {
   
   public var id: String = UUID().uuidString
   public var date: Date = .now
@@ -84,9 +86,9 @@ public struct EntryRecord: Codable, Sendable, Identifiable {
   }
 }
 
-public struct Message: Codable, Sendable {
-  public struct Options: Codable, Sendable {
-    public enum Mode: Codable, Sendable {
+public struct Message: Equatable, Codable, Sendable {
+  public struct Options: Equatable, Codable, Sendable {
+    public enum Mode: Equatable, Codable, Sendable {
       case greedy
       case randomP(probabilityThreshold: Double, seed: UInt64?)
       case randomT(top: Int, seed: UInt64?)

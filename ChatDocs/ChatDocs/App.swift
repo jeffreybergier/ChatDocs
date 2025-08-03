@@ -26,5 +26,6 @@ struct App: SwiftUI.App {
     DocumentGroup(newDocument: ChatDoc()) { file in
       ChatDocView(document: file.$document)
     }
+    .defaultSize(CGSize(width: 500, height: 600))
   }
 }
