@@ -22,6 +22,7 @@ import Controller
 public struct ChatDocView: View {
   
   @Binding internal var document: ChatDoc
+  @SceneStorage("Inspector") private var showsInspector = false
   
   public init(document: Binding<ChatDoc> = .constant(.init())) {
     _document = document
@@ -34,6 +35,21 @@ public struct ChatDocView: View {
           self.document.model.process(record: newRecord)
         }
         .padding([.leading, .trailing, .bottom], 8)
+      }
+      .inspector(isPresented:$showsInspector) {
+        Color.red
+      }
+      .toolbar(id: "Toolbar") {
+        ToolbarItem(id: "Chat", placement: .automatic) {
+          Button("Toggle Chat") {
+            
+          }
+        }
+        ToolbarItem(id: "Inspector", placement: .automatic) {
+          Button("Toggle Inspector") {
+            self.showsInspector.toggle()
+          }
+        }
       }
   }
 }
