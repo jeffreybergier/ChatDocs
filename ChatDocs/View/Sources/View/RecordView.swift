@@ -22,18 +22,22 @@ import Model
 #if os(macOS)
 import AppKit
 extension Color {
-  internal static var controlTextColor: Color { Color(nsColor: .textBackgroundColor) }
+  internal static var controlTextColor: Color { Color(nsColor: .labelColor) }
+  internal static var controlColor: Color { Color(nsColor: .controlColor) }
   internal static var systemGreen: Color { Color(nsColor: .systemGreen) }
   internal static var systemBlue: Color { Color(nsColor: .systemBlue) }
   internal static var systemGray: Color { Color(nsColor: .systemGray) }
+  internal static var systemYellow: Color { Color(nsColor: .systemYellow) }
 }
 #else
 import UIKit
 extension Color {
-  internal static var controlTextColor: Color { Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? .black : .white })}
+  internal static var controlTextColor: Color { Color(uiColor: .label) }
+  internal static var controlColor: Color { Color(uiColor: .secondarySystemBackground) }
   internal static var systemGreen: Color { Color(uiColor: .systemGreen) }
   internal static var systemBlue: Color { Color(uiColor: .systemBlue) }
   internal static var systemGray: Color { Color(uiColor: .systemGray) }
+  internal static var systemYellow: Color { Color(uiColor: .systemYellow) }
 }
 #endif
 
@@ -131,11 +135,13 @@ internal struct RecordCellView: View {
   private var backgroundColor: AnyGradient {
     switch self.record.entry {
     case .message(let message) where message.isUser:
-      return Color.green.gradient
+      return Color.systemGreen.gradient
     case .message:
-      return Color.blue.gradient
+      return Color.systemBlue.gradient
+    case .error:
+      return Color.systemYellow.gradient
     default:
-      return Color.gray.gradient
+      return Color.systemGray.gradient
     }
   }
   

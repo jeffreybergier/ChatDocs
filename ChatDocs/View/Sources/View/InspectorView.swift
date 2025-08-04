@@ -36,8 +36,9 @@ internal struct InspectorView: View {
   internal var body: some View {
     Form {
       Section("Current Session") {
-        LabeledContent("Instructions") {
-          TextEditor(text: $config.sessionOptions.instructions)
+        VStack(alignment:.leading) {
+          Text("Instructions")
+          CD_TextEditor($config.sessionOptions.instructions)
         }
         Toggle("Include Transcripts", isOn: $config.sessionOptions.usesTranscripts)
         Button("Start Session") {
