@@ -43,7 +43,7 @@ public struct SessionController {
   }
   
   public mutating func startSession() {
-    let instructions = self.model.config.sessionOptions.instructions
+    let instructions = self.model.options.sessionOptions.instructions
     self.model.records.append(Entry.started(instructions).toRecord())
     self.session = LanguageModelSession(model: .default, instructions: instructions)
   }

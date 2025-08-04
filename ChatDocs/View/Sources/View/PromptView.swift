@@ -51,7 +51,7 @@ func CD_TextEditor(_ text: Binding<String>) -> some View {
           .stroke(Color.gray.opacity(0.4), lineWidth: 1)
       }
   }
-  .frame(maxHeight: 64)
+  .frame(minHeight: 24, maxHeight: 92)
 }
 
 internal struct PromptView: View {

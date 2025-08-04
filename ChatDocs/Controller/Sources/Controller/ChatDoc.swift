@@ -22,7 +22,7 @@ import Model
 
 public struct ChatDoc: FileDocument {
   
-  public static let defaultModel = ChatDocModel(config:DocConfig(sessionOptions:SessionOptions(instructions:"You are a friendly chatbot that talks with the user. You can format your messages with Markdown as they will be formatted for the user. Please have a good time and keep things light and funny.")))
+  public static let defaultModel = ChatDocModel(config:Options(sessionOptions:SessionOptions(instructions:"You are a friendly chatbot that talks with the user. You can format your messages with Markdown as they will be formatted for the user. Please have a good time and keep things light and funny.")))
   
   public static let readableContentTypes = [
     UTType(exportedAs: "com.saturdayapps.ChatDocs.document")

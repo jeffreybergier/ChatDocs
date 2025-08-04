@@ -21,11 +21,11 @@ import Foundation
 public struct ChatDocModel: Equatable, Codable, Sendable {
   
   public var records: [EntryRecord]
-  public var config: DocConfig
+  public var options: Options
   
-  public init(records: [EntryRecord] = [], config: DocConfig = .init()) {
+  public init(records: [EntryRecord] = [], config: Options = .init()) {
     self.records = records
-    self.config = config
+    self.options = config
   }
   public mutating func process(record: EntryRecord) {
     if let lastRecord = self.records.last, lastRecord.id == record.id {
@@ -36,12 +36,12 @@ public struct ChatDocModel: Equatable, Codable, Sendable {
   }
 }
 
-public enum Entry: Equatable, Codable, Sendable {
+public enum Entry: Equatable, Hashable, Codable, Sendable {
   
   case message(Message)
-  case reset
   case started(String)
   case error(String)
+  case reset
   
   public func toRecord() -> EntryRecord {
     return .init(entry: self)
@@ -74,11 +74,11 @@ public enum Entry: Equatable, Codable, Sendable {
   }
 }
 
-public struct EntryRecord: Equatable, Codable, Sendable, Identifiable {
+public struct EntryRecord: Equatable, Hashable, Codable, Sendable, Identifiable {
   
-  public var id: String
-  public var date: Date
-  public var entry: Entry
+  public var id: String = UUID().uuidString
+  public var date: Date = .now
+  public var entry: Entry = .reset
   
   public init(id: String = UUID().uuidString,
               date: Date = .now,
@@ -90,31 +90,13 @@ public struct EntryRecord: Equatable, Codable, Sendable, Identifiable {
   }
 }
 
-public struct Message: Equatable, Codable, Sendable {
-  public struct Options: Equatable, Codable, Sendable {
-    public enum Mode: Equatable, Codable, Sendable {
-      case greedy
-      case randomP(probabilityThreshold: Double, seed: UInt64?)
-      case randomT(top: Int, seed: UInt64?)
-    }
-    public var sampling: Mode?
-    public var temperature: Double?
-    public var minimumResponseTokens: Int?
-    public init(sampling: Mode? = nil,
-                temperature: Double? = nil,
-                minimumResponseTokens: Int? = nil)
-    {
-      self.sampling = sampling
-      self.temperature = temperature
-      self.minimumResponseTokens = minimumResponseTokens
-    }
-  }
+public struct Message: Equatable, Hashable, Codable, Sendable {
   
-  public var content: String
-  public var options: Options
-  public var isUser: Bool
+  public var content: String = ""
+  public var options: PromptOptions?
+  public var isUser: Bool = true
   public init(_ content: String = "",
-              options: Options = .init(),
+              options: PromptOptions? = nil,
               isUser: Bool = true)
   {
     self.content = content
@@ -123,9 +105,9 @@ public struct Message: Equatable, Codable, Sendable {
   }
 }
 
-public struct DocConfig: Equatable, Codable, Sendable {
+public struct Options: Equatable, Codable, Sendable {
   public var promptOptions: PromptOptions?
-  public var sessionOptions: SessionOptions
+  public var sessionOptions: SessionOptions = .init()
   public init(promptOptions: PromptOptions? = nil,
               sessionOptions: SessionOptions = .init())
   {
@@ -134,18 +116,27 @@ public struct DocConfig: Equatable, Codable, Sendable {
   }
 }
 
-public struct SessionOptions: Equatable, Codable, Sendable {
-  public var instructions: String
-  public var usesTranscripts: Bool
+public struct SessionOptions: Equatable, Hashable, Codable, Sendable {
+  
+  public var instructions: String = ""
+  public var transcriptOptions: TranscriptOptions = .all
+  public var transcriptSelection: Set<EntryRecord> = []
   public init(instructions: String = "",
-              usesTranscripts: Bool = true)
+              transcriptOptions: TranscriptOptions = .all,
+              transcriptSelection: Set<EntryRecord> = [])
   {
     self.instructions = instructions
-    self.usesTranscripts = usesTranscripts
+    self.transcriptOptions = transcriptOptions
+    self.transcriptSelection = transcriptSelection
   }
 }
 
-public struct PromptOptions: Equatable, Codable, Sendable {
+public enum TranscriptOptions: Equatable, Hashable, Codable, Sendable {
+  case none, all, selected
+}
+
+public struct PromptOptions: Equatable, Hashable, Codable, Sendable {
+  // TODO: Set default values here
   public var sampling: PromptMode
   public var temperature: Double
   public var minimumResponseTokens: Int
@@ -159,7 +150,7 @@ public struct PromptOptions: Equatable, Codable, Sendable {
   }
 }
 
-public enum PromptMode: Equatable, Codable, Sendable {
+public enum PromptMode: Equatable, Hashable, Codable, Sendable {
   case greedy
   case randomP(probabilityThreshold: Double, seed: UInt64?)
   case randomT(top: Int, seed: UInt64?)

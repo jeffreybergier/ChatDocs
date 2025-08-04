@@ -24,9 +24,9 @@ import Model
 internal struct InspectorView: View {
   
   @Binding private var controller: SessionController
-  @Binding private var config: DocConfig
+  @Binding private var config: Options
   
-  internal init(config: Binding<DocConfig>,
+  internal init(config: Binding<Options>,
                 session controller: Binding<SessionController>)
   {
     _config = config
@@ -38,20 +38,26 @@ internal struct InspectorView: View {
       Section("Current Session") {
         VStack(alignment:.leading) {
           Text("Instructions")
-          CD_TextEditor($config.sessionOptions.instructions)
+          CD_TextEditor(self.$config.sessionOptions.instructions)
         }
-        Toggle("Include Transcripts", isOn: $config.sessionOptions.usesTranscripts)
-        Button("Start Session") {
-          self.controller.startSession()
+        .disabled(self.controller.status != .isReset)
+        Picker("Include Transcript", selection:self.$config.sessionOptions.transcriptOptions) {
+          Text("None").tag(TranscriptOptions.none)
+          Text("All").tag(TranscriptOptions.all)
+          Text("Selected").tag(TranscriptOptions.selected)
+        }
+        .disabled(self.controller.status != .isReset)
+        HStack {
+          Button("Start Session") {
+            self.controller.startSession()
+          }
+          .disabled(self.controller.status != .isReset)
+          Button("Reset Session") {
+            self.controller.resetSession()
+          }
+          .disabled(self.controller.status != .isStarted)
         }
       }
-      .disabled(self.controller.status != .isReset)
-      Section("Reset Session") {
-        Button("Reset Session") {
-          self.controller.resetSession()
-        }
-      }
-      .disabled(self.controller.status != .isStarted)
     }
   }
 }

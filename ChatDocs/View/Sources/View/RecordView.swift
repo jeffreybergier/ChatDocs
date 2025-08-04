@@ -44,14 +44,17 @@ extension Color {
 internal struct RecordView: View {
   
   private let records: [EntryRecord]
+  @Binding private var selection: Set<EntryRecord>
   
-  internal init(records: [EntryRecord]) {
+  internal init(records: [EntryRecord], selection: Binding<Set<EntryRecord>>) {
     self.records = records
+    _selection = selection
   }
   internal var body: some View {
     ScrollViewReader { proxy in
-      List(self.records) { record in
+      List(self.records, selection:self.$selection) { record in
         RecordCellView(record)
+          .tag(record)
           .listRowSeparator(.hidden)
       }
       .listStyle(.plain)
@@ -145,10 +148,14 @@ internal struct RecordCellView: View {
     }
   }
   
-  private func renderMarkdown(_ text: String) -> AttributedString? {
+  // TODO: Figure out how to make AttributedString properly do markdown
+  private func renderMarkdown(_ text: String) -> String? /*AttributedString?*/ {
+    return text
+    /*
     let options = AttributedString.MarkdownParsingOptions(interpretedSyntax:.inlineOnlyPreservingWhitespace)
     let output = try? AttributedString(markdown:text, options: options)
     return output
+    */
   }
   
   // TODO: Figure out why I cannot use full

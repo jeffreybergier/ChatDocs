@@ -19,13 +19,19 @@
 import SwiftUI
 import FoundationModels
 import Controller
+import Model
 
 public struct ChatDocView: View {
   
+  @Binding private var document: ChatDoc
+  
   @State private var controller: SessionController
   @State private var session: LanguageModelSession?
-  @Binding internal var document: ChatDoc
-  @SceneStorage("Inspector") private var showsInspector = false
+  @SceneStorage("Inspector") private var isPresentingInspector = false
+  @SceneStorage("RecordEdit") private var isEditingRecords = false
+  
+  // TODO: Add this for iOS
+  //@Environment(\.editMode) private var editMode
   
   public init(document: Binding<ChatDoc> = .constant(.init())) {
     _document = document
@@ -33,24 +39,26 @@ public struct ChatDocView: View {
   }
   
   public var body: some View {
-    RecordView(records: self.document.model.records)
+    RecordView(records:self.document.model.records,
+               selection:self.$document.model.options.sessionOptions.transcriptSelection)
       .safeAreaInset(edge: .bottom, spacing: 0) {
-        PromptView(session:$controller)
+        PromptView(session:self.$controller)
           .padding([.leading, .trailing, .bottom], 8)
       }
-      .inspector(isPresented:$showsInspector) {
-        InspectorView(config:$document.model.config,
-                      session:$controller)
+      .inspector(isPresented:self.$isPresentingInspector) {
+        InspectorView(config:self.$document.model.options,
+                      session:self.$controller)
       }
       .toolbar(id: "Toolbar") {
-        ToolbarItem(id: "Chat", placement: .automatic) {
-          Button("Toggle Chat") {
-            
+        ToolbarItem(id: "Edit", placement: .automatic) {
+          Button("Deselect All") {
+            self.document.model.options.sessionOptions.transcriptSelection = []
           }
+          .disabled(self.document.model.options.sessionOptions.transcriptSelection.isEmpty)
         }
         ToolbarItem(id: "Inspector", placement: .automatic) {
           Button("Toggle Inspector") {
-            self.showsInspector.toggle()
+            self.isPresentingInspector.toggle()
           }
         }
       }
