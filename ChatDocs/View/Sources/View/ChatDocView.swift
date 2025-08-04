@@ -28,10 +28,6 @@ public struct ChatDocView: View {
   @State private var controller: SessionController
   @State private var session: LanguageModelSession?
   @SceneStorage("Inspector") private var isPresentingInspector = false
-  @SceneStorage("RecordEdit") private var isEditingRecords = false
-  
-  // TODO: Add this for iOS
-  //@Environment(\.editMode) private var editMode
   
   public init(document: Binding<ChatDoc> = .constant(.init())) {
     _document = document
@@ -41,27 +37,50 @@ public struct ChatDocView: View {
   public var body: some View {
     RecordView(records:self.document.model.records,
                selection:self.$document.model.options.sessionOptions.transcriptSelection)
-      .safeAreaInset(edge: .bottom, spacing: 0) {
-        PromptView(session:self.$controller)
-          .padding([.leading, .trailing, .bottom], 8)
-      }
-      .inspector(isPresented:self.$isPresentingInspector) {
-        InspectorView(config:self.$document.model.options,
-                      session:self.$controller)
-      }
-      .toolbar(id: "Toolbar") {
-        ToolbarItem(id: "Edit", placement: .automatic) {
-          Button("Deselect All") {
-            self.document.model.options.sessionOptions.transcriptSelection = []
-          }
-          .disabled(self.document.model.options.sessionOptions.transcriptSelection.isEmpty)
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      PromptView(session:self.$controller)
+        .padding([.leading, .trailing, .bottom], 8)
+    }
+    .inspector(isPresented:self.$isPresentingInspector) {
+      InspectorView(config:self.$document.model.options,
+                    session:self.$controller)
+    }
+    .toolbar(id: "Toolbar") {
+      ToolbarItem(id: "Delete") {
+        Button(role: .destructive) {
+          self.document.model.deleteSelectedRecords()
+        } label: {
+          Label("Delete", systemImage: "trash.circle")
         }
-        ToolbarItem(id: "Inspector", placement: .automatic) {
-          Button("Toggle Inspector") {
-            self.isPresentingInspector.toggle()
-          }
+        .disabled(self.document.model.options.sessionOptions.transcriptSelection.isEmpty)
+      }
+      ToolbarItem(id: "Select") {
+        self.selectButton
+      }
+      ToolbarItem(id: "Inspector") {
+        Button {
+          self.isPresentingInspector.toggle()
+        } label: {
+          Label("Inspector", systemImage: "sidebar.right")
         }
       }
+    }
+  }
+  
+  @ViewBuilder private var selectButton: some View {
+    if self.document.model.options.sessionOptions.transcriptSelection.isEmpty {
+      Button {
+        self.document.model.options.sessionOptions.transcriptSelection = Set(self.document.model.records)
+      } label: {
+        Label("Select All", systemImage: "checkmark.circle")
+      }
+    } else {
+      Button {
+        self.document.model.options.sessionOptions.transcriptSelection = []
+      } label: {
+        Label("Deselect All", systemImage: "circle.dashed")
+      }
+    }
   }
 }
 

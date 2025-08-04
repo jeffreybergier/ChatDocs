@@ -43,8 +43,6 @@ func CD_PrimaryButton(_ title: LocalizedStringKey,
 func CD_TextEditor(_ text: Binding<String>) -> some View {
   return VStack(alignment:.leading) {
     TextEditor(text: text)
-      .padding([.top, .bottom], 4)
-      .background(Color.controlColor)
       .clipShape(RoundedRectangle(cornerRadius: 8))
       .overlay {
         RoundedRectangle(cornerRadius: 8)

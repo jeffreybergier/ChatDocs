@@ -34,6 +34,12 @@ public struct ChatDocModel: Equatable, Codable, Sendable {
       self.records.append(record)
     }
   }
+  
+  public mutating func deleteSelectedRecords() {
+    let toDelete = self.options.sessionOptions.transcriptSelection
+    self.options.sessionOptions.transcriptSelection = []
+    self.records.removeAll { toDelete.contains($0) }
+  }
 }
 
 public enum Entry: Equatable, Hashable, Codable, Sendable {
