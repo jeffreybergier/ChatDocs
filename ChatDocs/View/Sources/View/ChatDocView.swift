@@ -61,8 +61,8 @@ public struct ChatDocView: View {
                     session:self.$controller)
     }
     .environment(\.HACK_editMode, self.hack_editMode)
-    .toolbar(id: "Toolbar") {
-      ToolbarItem(id: "Delete") {
+    .toolbar(id:"Toolbar") {
+      ToolbarItem(id:"Delete") {
         Button(role: .destructive) {
           self.document.model.deleteSelectedRecords()
         } label: {
@@ -70,10 +70,10 @@ public struct ChatDocView: View {
         }
         .disabled(self.document.model.options.sessionOptions.transcriptSelection.isEmpty)
       }
-      ToolbarItem(id: "Select") {
+      ToolbarItem(id:"Select") {
         self.selectButton
       }
-      ToolbarItem(id: "Inspector") {
+      ToolbarItem(id:"Inspector") {
         Button {
           self.isPresentingInspector.toggle()
         } label: {
@@ -90,7 +90,7 @@ public struct ChatDocView: View {
     {
       Button {
         self.hack_editMode = true
-        self.document.model.options.sessionOptions.transcriptSelection = Set(self.document.model.records)
+        self.document.model.options.sessionOptions.transcriptSelection = Set(self.document.model.records.map { $0.id})
       } label: {
         Label("Select All", systemImage: "checkmark.circle")
       }

@@ -44,14 +44,16 @@ extension Color {
 internal struct RecordView: View {
   
   private let records: [EntryRecord]
-  @Binding private var selection: Set<EntryRecord>
+  @Binding private var selection: Set<EntryRecord.ID>
   @Environment(\.HACK_editMode) private var hack_editMode
   
   #if !os(macOS)
   @Environment(\.editMode) private var editMode
   #endif
   
-  internal init(records: [EntryRecord], selection: Binding<Set<EntryRecord>>) {
+  internal init(records: [EntryRecord],
+                selection: Binding<Set<EntryRecord.ID>>)
+  {
     self.records = records
     _selection = selection
   }
@@ -59,7 +61,7 @@ internal struct RecordView: View {
     ScrollViewReader { proxy in
       List(self.records, selection:self.$selection) { record in
         RecordCellView(record)
-          .tag(record)
+          .tag(record.id)
           .listRowSeparator(.hidden)
       }
       .contextMenu(forSelectionType: EntryRecord.self)

@@ -38,7 +38,7 @@ public struct ChatDocModel: Equatable, Codable, Sendable {
   public mutating func deleteSelectedRecords() {
     let toDelete = self.options.sessionOptions.transcriptSelection
     self.options.sessionOptions.transcriptSelection = []
-    self.records.removeAll { toDelete.contains($0) }
+    self.records.removeAll { toDelete.contains($0.id) }
   }
 }
 
@@ -126,10 +126,10 @@ public struct SessionOptions: Equatable, Hashable, Codable, Sendable {
   
   public var instructions: String = ""
   public var transcriptOptions: TranscriptOptions = .all
-  public var transcriptSelection: Set<EntryRecord> = []
+  public var transcriptSelection: Set<EntryRecord.ID> = []
   public init(instructions: String = "",
               transcriptOptions: TranscriptOptions = .all,
-              transcriptSelection: Set<EntryRecord> = [])
+              transcriptSelection: Set<EntryRecord.ID> = [])
   {
     self.instructions = instructions
     self.transcriptOptions = transcriptOptions
