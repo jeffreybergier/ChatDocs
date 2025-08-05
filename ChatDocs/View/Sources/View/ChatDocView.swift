@@ -21,12 +21,27 @@ import FoundationModels
 import Controller
 import Model
 
+// TODO: For some reason, when I edit the EditMode environment
+// value in this view, it is not passed down to the list view.
+// I think this is a bug in SwiftUI for iOS26
+private struct HACK_EditMode: EnvironmentKey {
+  static let defaultValue: Bool = false
+}
+
+extension EnvironmentValues {
+  var HACK_editMode: Bool {
+    get { self[HACK_EditMode.self] }
+    set { self[HACK_EditMode.self] = newValue }
+  }
+}
+
 public struct ChatDocView: View {
   
   @Binding private var document: ChatDoc
   
   @State private var controller: SessionController
   @State private var session: LanguageModelSession?
+  @State private var hack_editMode = false
   @SceneStorage("Inspector") private var isPresentingInspector = false
   
   public init(document: Binding<ChatDoc> = .constant(.init())) {
@@ -45,6 +60,7 @@ public struct ChatDocView: View {
       InspectorView(config:self.$document.model.options,
                     session:self.$controller)
     }
+    .environment(\.HACK_editMode, self.hack_editMode)
     .toolbar(id: "Toolbar") {
       ToolbarItem(id: "Delete") {
         Button(role: .destructive) {
@@ -68,14 +84,19 @@ public struct ChatDocView: View {
   }
   
   @ViewBuilder private var selectButton: some View {
-    if self.document.model.options.sessionOptions.transcriptSelection.isEmpty {
+    if
+      self.document.model.options.sessionOptions.transcriptSelection.isEmpty,
+      self.hack_editMode == false
+    {
       Button {
+        self.hack_editMode = true
         self.document.model.options.sessionOptions.transcriptSelection = Set(self.document.model.records)
       } label: {
         Label("Select All", systemImage: "checkmark.circle")
       }
     } else {
       Button {
+        self.hack_editMode = false
         self.document.model.options.sessionOptions.transcriptSelection = []
       } label: {
         Label("Deselect All", systemImage: "circle.dashed")

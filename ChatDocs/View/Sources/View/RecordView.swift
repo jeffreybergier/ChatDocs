@@ -45,6 +45,11 @@ internal struct RecordView: View {
   
   private let records: [EntryRecord]
   @Binding private var selection: Set<EntryRecord>
+  @Environment(\.HACK_editMode) private var hack_editMode
+  
+  #if !os(macOS)
+  @Environment(\.editMode) private var editMode
+  #endif
   
   internal init(records: [EntryRecord], selection: Binding<Set<EntryRecord>>) {
     self.records = records
@@ -57,13 +62,24 @@ internal struct RecordView: View {
           .tag(record)
           .listRowSeparator(.hidden)
       }
-      .listStyle(.plain)
+      .contextMenu(forSelectionType: EntryRecord.self)
+      { records in
+        Button("NSUnimplemented") { NSLog("NSUnimplemented") }
+      } primaryAction: { record in
+        NSLog("NSUnimplemented")
+      }
+      .onChange(of:self.hack_editMode, initial:true) { _, newValue in
+        #if !os(macOS)
+        self.editMode!.wrappedValue = newValue ? .active : .inactive
+        #endif
+      }
       .onChange(of: self.records.last) { _, last in
         guard let last else { return }
         withAnimation {
           proxy.scrollTo(last.id, anchor: .bottom)
         }
       }
+      .listStyle(.plain)
     }
   }
 }
